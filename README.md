@@ -1,7 +1,5 @@
 # My Account Bank(가계부)
-
-
-
+### : _th_
 
 ### settings
 
