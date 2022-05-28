@@ -1,4 +1,4 @@
-# My Account Bank(가계부) 
+# My Account Book(가계부) 
 
 
 ### settings
