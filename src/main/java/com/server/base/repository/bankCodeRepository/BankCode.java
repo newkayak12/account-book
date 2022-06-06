@@ -1,5 +1,6 @@
 package com.server.base.repository.bankCodeRepository;
 
+import com.server.base.common.converter.BankCodeConverter;
 import com.server.base.common.enums.RefBankCode;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -23,6 +24,7 @@ public class BankCode {
     @Column(name = "bank_code_no")
     private Long bankCodeNo;
 //    converter
+    @Convert(converter = BankCodeConverter.class)
     @Column(name = "Bcode")
     private RefBankCode bankCode;
     @Column

@@ -1,5 +1,6 @@
 package com.server.base.repository.bankListRepository;
 
+import com.server.base.common.converter.BankListStatusConverter;
 import com.server.base.common.enums.BankListStatus;
 import com.server.base.repository.bankCodeRepository.BankCode;
 import lombok.*;
@@ -29,6 +30,7 @@ public class BankList {
     @JoinColumn(name = "Bcode", referencedColumnName = "bank_code_no")
     private BankCode bCode;
 //converter
+    @Convert(converter = BankListStatusConverter.class)
     @Column(name = "stts")
     private BankListStatus bankListStatus;
 }

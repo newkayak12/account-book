@@ -1,5 +1,8 @@
 package com.server.base.repository.depositAccountRepository;
 
+import com.server.base.common.converter.PaymentTypeConverter;
+import com.server.base.common.converter.RepeatTypeConverter;
+import com.server.base.common.converter.WeekConverter;
 import com.server.base.common.enums.RefPaymentType;
 import com.server.base.common.enums.RefRepeatType;
 import com.server.base.common.enums.RefWeekday;
@@ -41,6 +44,7 @@ public class DepositAccount {
     @Column(name = "de_account_contents")
     private String depositAccountContents;
 //    converter
+    @Convert(converter = PaymentTypeConverter.class)
     @Column(name = "de_account_payment_type")
     private RefPaymentType paymentType;
     @Column(name = "de_account_loop_cnt_now")
@@ -50,9 +54,11 @@ public class DepositAccount {
     @Column(name = "de_account_stts")
     private Boolean isDeleted;
 //    converter
+    @Convert(converter = RepeatTypeConverter.class)
     @Column(name = "de_account_ref")
     private RefRepeatType repeatPeriod;
 //    converter
+    @Convert(converter = WeekConverter.class)
     @Column(name = "de_account_day")
     private RefWeekday weekday;
 

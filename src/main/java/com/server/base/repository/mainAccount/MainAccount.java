@@ -1,5 +1,8 @@
 package com.server.base.repository.mainAccount;
 
+import com.server.base.common.converter.AccountCodeConverter;
+import com.server.base.common.converter.BankCodeConverter;
+import com.server.base.common.converter.PaymentTypeConverter;
 import com.server.base.common.enums.RefAccountCode;
 import com.server.base.common.enums.RefBankCode;
 import com.server.base.common.enums.RefPaymentType;
@@ -41,12 +44,15 @@ public class MainAccount {
     @JoinColumn(name = "category_no", referencedColumnName = "category_no")
     private Category category;
 //    Converter
+    @Convert(converter = BankCodeConverter.class)
     @Column(name = "main_account_bank_code")
     private RefBankCode mainAccountBankCode;
 //    converter
+    @Convert(converter = AccountCodeConverter.class)
     @Column(name = "main_account_account_code")
     private RefAccountCode mainAccountCode;
 //    converter
+    @Convert(converter = PaymentTypeConverter.class)
     @Column(name = "main_account_payment_type")
     private RefPaymentType paymentType;
 

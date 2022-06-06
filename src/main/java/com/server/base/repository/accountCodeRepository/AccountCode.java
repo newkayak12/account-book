@@ -1,5 +1,6 @@
 package com.server.base.repository.accountCodeRepository;
 
+import com.server.base.common.converter.AccountCodeConverter;
 import com.server.base.common.enums.RefAccountCode;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -21,7 +22,7 @@ public class AccountCode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accountCodeNo;
-//converter
+    @Convert(converter = AccountCodeConverter.class)
     @Column(name = "Ccode")
     private RefAccountCode cCode;
     @Column

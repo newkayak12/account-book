@@ -1,5 +1,8 @@
 package com.server.base.common.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum RefBankCode {
     TOSS(1, "토스 증권")
     ;

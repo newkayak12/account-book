@@ -1,5 +1,8 @@
 package com.server.base.common.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum RefWeekday {
     MONDAY(1),
     TUESDAY(2),

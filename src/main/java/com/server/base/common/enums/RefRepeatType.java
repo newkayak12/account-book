@@ -1,5 +1,8 @@
 package com.server.base.common.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum RefRepeatType {
     NONE(0),
     DAILY(1),
