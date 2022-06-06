@@ -13,6 +13,6 @@ import javax.persistence.*;
 @Embeddable
 @Setter
 public class AuthEntity {
-    @Column(name = "refresh_token", length = 500, nullable = false, columnDefinition = "VARCHAR(500)")
+    @Column(name = "user_refresh_token", length = 250, nullable = false)
     private String refreshToken;
 }

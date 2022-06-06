@@ -22,15 +22,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class UserDateEntity {
     @ColumnDefault(value = "0")
-    @Column(name = "status")
+    @Column(name = "user_stts")
     @Convert(converter = UserStatusConverter.class)
     private UserStatus status;
 
-    @Column(nullable = false, name = "reg_date")
+    @Column(nullable = false, name = "user_reg_date")
     private LocalDateTime regDate;
-    @Column(nullable = true, name = "last_login_date")
+    @Column(nullable = true, name = "user_login_date")
     private LocalDateTime lastLoginDate;
-    @Column(nullable = true, name = "withdrawal_date")
+    @Column(name = "user_lock_date")
+    private LocalDateTime userLockDate;
+    @Column(nullable = true, name = "user_delete_date")
     private LocalDateTime withdrawalDate;
 
     @PrePersist
