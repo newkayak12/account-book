@@ -12,9 +12,9 @@ import javax.persistence.*;
 @Table
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode
 @ToString
 @DynamicUpdate
 @DynamicInsert
@@ -27,4 +27,11 @@ public class AccountCode {
     private RefAccountCode cCode;
     @Column
     private String codeCode;
+
+    @Builder
+    public AccountCode(RefAccountCode cCode, String codeCode) {
+        this.cCode = cCode;
+        this.codeCode = codeCode;
+    }
+
 }

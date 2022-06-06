@@ -12,9 +12,9 @@ import javax.persistence.*;
 @Table
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode
 @ToString
 @DynamicUpdate
 @DynamicInsert
@@ -23,10 +23,14 @@ public class BankCode {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bank_code_no")
     private Long bankCodeNo;
-//    converter
     @Convert(converter = BankCodeConverter.class)
     @Column(name = "Bcode")
     private RefBankCode bankCode;
     @Column
     private String codeContents;
+    @Builder
+    public BankCode(RefBankCode bankCode, String codeContents) {
+        this.bankCode = bankCode;
+        this.codeContents = codeContents;
+    }
 }

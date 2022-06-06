@@ -39,7 +39,7 @@ public class UserDateEntity {
     public void signUp(){
         this.regDate=LocalDateTime.now();
     }
-    @PostPersist
+    @PostLoad
     public void signIn(){
         this.lastLoginDate = LocalDateTime.now();
     }

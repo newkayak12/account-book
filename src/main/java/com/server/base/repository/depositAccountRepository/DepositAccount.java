@@ -7,6 +7,7 @@ import com.server.base.common.enums.RefPaymentType;
 import com.server.base.common.enums.RefRepeatType;
 import com.server.base.common.enums.RefWeekday;
 import com.server.base.repository.bankCodeRepository.BankCode;
+import com.server.base.repository.userRepository.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -29,6 +30,7 @@ public class DepositAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "de_account_no")
     private Long depositAccountNo;
+
     private Long userNo;
     @Column(name = "de_account_price")
     private Long depositAccountPrice;
@@ -43,7 +45,6 @@ public class DepositAccount {
     private BankCode bankCode;
     @Column(name = "de_account_contents")
     private String depositAccountContents;
-//    converter
     @Convert(converter = PaymentTypeConverter.class)
     @Column(name = "de_account_payment_type")
     private RefPaymentType paymentType;
@@ -53,13 +54,39 @@ public class DepositAccount {
     private Integer depositAccountLoopCountTotal;
     @Column(name = "de_account_stts")
     private Boolean isDeleted;
-//    converter
     @Convert(converter = RepeatTypeConverter.class)
     @Column(name = "de_account_ref")
     private RefRepeatType repeatPeriod;
-//    converter
     @Convert(converter = WeekConverter.class)
     @Column(name = "de_account_day")
     private RefWeekday weekday;
 
+    @Builder
+    public DepositAccount(Long depositAccountPrice, LocalDate depositAccountDate, LocalDate depositAccountStartDate,
+                          LocalDate depositAccountEndDate,BankCode bankCode, String depositAccountContents,
+                          RefPaymentType paymentType, Integer depositAccountLoopCountTotal, RefRepeatType repeatPeriod,
+                          RefWeekday weekday) {
+        this.depositAccountPrice = depositAccountPrice;
+        this.depositAccountDate = depositAccountDate;
+        this.depositAccountStartDate = depositAccountStartDate;
+        this.depositAccountEndDate = depositAccountEndDate;
+        this.bankCode = bankCode;
+        this.depositAccountContents = depositAccountContents;
+        this.paymentType = paymentType;
+        this.depositAccountLoopCountTotal = depositAccountLoopCountTotal;
+        this.repeatPeriod = repeatPeriod;
+        this.weekday = weekday;
+    }
+
+    public void setUser(User user){
+        this.userNo = user.getUserNo();
+    }
+    public void delete(){
+        this.isDeleted = true;
+    }
+    public void setLoopCount(Integer count){
+        if(this.depositAccountLoopCountTotal>=count){
+            this.depositAccountLoopCountNow = count;
+        }
+    }
 }

@@ -4,7 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum RefPaymentType {
-    CASH(0),CHECK(1), CREDIT(2) ;
+//    납부 방식
+    CASH(0),
+    CHECK(1),
+    CREDIT(2) ;
 
     RefPaymentType(Integer code) {
         this.code = code;

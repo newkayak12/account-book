@@ -1,5 +1,6 @@
 package com.server.base.repository.categoryRepository;
 
+import com.server.base.repository.userRepository.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -10,9 +11,9 @@ import javax.persistence.*;
 @Table
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode
 @ToString
 @DynamicUpdate
 @DynamicInsert
@@ -27,5 +28,13 @@ public class Category {
     private String category_etc2;
     @Column(nullable = false)
     private Boolean categoryIsDefault;
-
+    @Builder
+    public Category(String category_etc1, String category_etc2, Boolean categoryIsDefault) {
+        this.category_etc1 = category_etc1;
+        this.category_etc2 = category_etc2;
+        this.categoryIsDefault = categoryIsDefault;
+    }
+    public void setUser(User user){
+        this.userNo = user.getUserNo();
+    }
 }

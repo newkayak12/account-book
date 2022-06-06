@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum RefBankCode {
+//    은행 코드
     TOSS(1, "토스 증권")
     ;
 

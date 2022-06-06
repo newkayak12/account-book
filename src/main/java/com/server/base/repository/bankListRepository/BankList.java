@@ -3,6 +3,7 @@ package com.server.base.repository.bankListRepository;
 import com.server.base.common.converter.BankListStatusConverter;
 import com.server.base.common.enums.BankListStatus;
 import com.server.base.repository.bankCodeRepository.BankCode;
+import com.server.base.repository.userRepository.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -13,10 +14,10 @@ import javax.persistence.*;
 @Table
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @EqualsAndHashCode
 @ToString
+@AllArgsConstructor
+@Builder
 @DynamicUpdate
 @DynamicInsert
 public class BankList {
@@ -29,8 +30,18 @@ public class BankList {
     @OneToOne
     @JoinColumn(name = "Bcode", referencedColumnName = "bank_code_no")
     private BankCode bCode;
-//converter
     @Convert(converter = BankListStatusConverter.class)
     @Column(name = "stts")
     private BankListStatus bankListStatus;
+
+    @Builder
+    public BankList(Long bankListNo, BankCode bCode, BankListStatus bankListStatus) {
+        this.bankListNo = bankListNo;
+        this.bCode = bCode;
+        this.bankListStatus = bankListStatus;
+    }
+    public void setUser(User user){
+        this.userId = user.getUserId();
+        this.userNo = user.getUserNo();
+    }
 }
