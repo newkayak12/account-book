@@ -6,8 +6,10 @@ import lombok.Getter;
 public class ServiceException extends Exception{
     private Integer code;
     private String msg;
-    public ServiceException(String message){
+    public ServiceException(Exceptions exceptions, String message){
         super(message);
+        this.code = exceptions.getCode();
+        this.msg = String.format(exceptions.getMsg(), message);
     }
     public ServiceException(Exceptions exceptions) {
         super(exceptions.getMsg());

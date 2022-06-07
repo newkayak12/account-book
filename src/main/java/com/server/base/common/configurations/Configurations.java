@@ -2,6 +2,7 @@ package com.server.base.common.configurations;
 
 import com.server.base.common.authorizations.interceptor.AuthInterceptor;
 import com.server.base.common.constants.Constants;
+import com.server.base.common.validations.BindingErrorChecker;
 import com.server.base.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,6 @@ public class Configurations implements WebMvcConfigurer {
     }
     @Bean
     public DateLogger dateLogger() {return new DateLogger();}
-
+    @Bean
+    public BindingErrorChecker bindingErrorChecker() {return new BindingErrorChecker();}
 }
