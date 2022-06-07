@@ -1,10 +1,8 @@
 package com.server.base.repository.mainAccount;
 
 import com.server.base.common.converter.AccountCodeConverter;
-import com.server.base.common.converter.BankCodeConverter;
 import com.server.base.common.converter.PaymentTypeConverter;
 import com.server.base.common.enums.RefAccountCode;
-import com.server.base.common.enums.RefBankCode;
 import com.server.base.common.enums.RefPaymentType;
 import com.server.base.repository.categoryRepository.Category;
 import com.server.base.repository.myMoneyRepository.MyMoney;
@@ -44,9 +42,10 @@ public class MainAccount {
     @OneToOne
     @JoinColumn(name = "category_no", referencedColumnName = "category_no")
     private Category category;
-    @Convert(converter = BankCodeConverter.class)
     @Column(name = "main_account_bank_code")
-    private RefBankCode mainAccountBankCode;
+    private String mainAccountBankCode;
+    @Column(name = "main_account_bank_contents")
+    private String mainAccountBankContents;
     @Convert(converter = AccountCodeConverter.class)
     @Column(name = "main_account_account_code")
     private RefAccountCode mainAccountCode;
@@ -61,13 +60,14 @@ public class MainAccount {
 
     @Builder
     public MainAccount(LocalDateTime mainAccountDate, String mainAccountPrice, MyMoney mainAccountTotalPrice,
-                       Category category, RefBankCode mainAccountBankCode, RefAccountCode mainAccountCode,
-                       RefPaymentType paymentType, String mainAccountContents) {
+                       Category category, String mainAccountBankCode,String mainAccountBankContents,
+                       RefAccountCode mainAccountCode,RefPaymentType paymentType, String mainAccountContents) {
         this.mainAccountDate = mainAccountDate;
         this.mainAccountPrice = mainAccountPrice;
         this.mainAccountTotalPrice = mainAccountTotalPrice;
         this.category = category;
         this.mainAccountBankCode = mainAccountBankCode;
+        this.mainAccountBankContents = mainAccountBankContents;
         this.mainAccountCode = mainAccountCode;
         this.paymentType = paymentType;
         this.mainAccountContents = mainAccountContents;

@@ -9,7 +9,6 @@ import com.server.base.repository.dto.UserDto;
 import com.server.base.service.BankCodeService;
 import com.server.base.service.BankListService;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Tag(name = "/api/bank", description = "은행 관련")
+//@Tag(name = "/api/bank", description = "은행 관련")
 @RestController
 @CrossOrigin("*")
 @RequestMapping(value = "/api/bank")

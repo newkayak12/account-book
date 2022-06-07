@@ -2,7 +2,6 @@ package com.server.base.repository.dto;
 
 import com.server.base.common.authorizations.annotations.AuthorizeDto;
 import com.server.base.common.enums.RefAccountCode;
-import com.server.base.common.enums.RefBankCode;
 import com.server.base.common.enums.RefPaymentType;
 import lombok.*;
 
@@ -25,7 +24,8 @@ public class MainAccountDto implements Serializable {
     private  String mainAccountPrice;
     private  MyMoneyDto mainAccountTotalPrice;
     private  CategoryDto category;
-    private  RefBankCode mainAccountBankCode;
+    private  String mainAccountBankCode;
+    private  String mainAccountBankContents;
     private  RefAccountCode mainAccountCode;
     private  RefPaymentType paymentType;
     private  String mainAccountContents;
