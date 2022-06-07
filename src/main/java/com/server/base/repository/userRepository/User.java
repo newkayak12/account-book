@@ -46,5 +46,15 @@ public class User extends UserDateEntity {
         }
     }
 
+    public void subPasswordFail(){
+        if(this.userFailCnt<=5){
+            this.userFailCnt+=1;
+        } else {
+            this.userFailCnt = 0;
+            lockDown();
+        }
+
+
+    }
 //    LOCK
 }

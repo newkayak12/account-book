@@ -11,10 +11,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.readers.parameter.ApiParamParameterBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.io.File;
@@ -24,10 +25,7 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Configuration
 @EnableSwagger2
@@ -52,6 +50,23 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .paths(PathSelectors.any())
                 .build();
     }
+//    https://lemontia.tistory.com/1027
+//    private List<SecurityReference> auth(){
+//        AuthorizationScope access = new AuthorizationScope("global", "accessToken");
+//        AuthorizationScope refresh = new AuthorizationScope("global", "refreshToken");
+//        AuthorizationScope[] acc = new AuthorizationScope[]{access};
+//        AuthorizationScope[] re = new AuthorizationScope[]{refresh};
+//        return Arrays.asList(new SecurityReference("access", acc),
+//                new SecurityReference("RefreshToken", re));
+//    }
+//    private SecurityContext securityContext(){
+//        return SecurityContext.builder()
+//                .securityReferences(auth())
+//                .build();
+//    }
+//    private List<ApiKey> keys(){
+//
+//    }
 
     private Set<String> getConsumeContentTypes(){
         Set<String> consumes = new HashSet<>();

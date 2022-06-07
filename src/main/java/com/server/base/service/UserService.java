@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 
 @Service
 @Slf4j
@@ -32,14 +34,14 @@ public class UserService {
     }
 
     /**
-     * 사용자 가져오기
+     * 로그인
      * @param userDto
      * @return
      * @throws ServiceException
      */
     @Transactional(readOnly = true)
-    public UserDto getUser(UserDto userDto) throws ServiceException{
-        User user = userRepository.getUserByUserId(userDto.getId())
+    public UserDto signIn(UserDto userDto) throws ServiceException{
+        User user = userRepository.getUserByUserId(userDto.getUserId())
                 .orElseThrow(() ->  new ServiceException(Exceptions.NO_DATA));
         String password = userDto.getPassword();
         String rawPassword = user.getPassword();
@@ -47,6 +49,24 @@ public class UserService {
             throw  new ServiceException(Exceptions.NO_DATA);
         }
         return Mapper.modelMapping(user, new UserDto());
+    }
+
+    /**
+     * 간편 로그인
+     * @param userDto
+     * @throws ServiceException
+     */
+    @Transactional(readOnly = true)
+    public void easySignIn(UserDto userDto) throws ServiceException {
+            User user = userRepository.getUserByUserIdAndUserLockDateBefore(userDto.getUserId(), LocalDateTime.now())
+                    .orElseThrow(() -> new ServiceException(Exceptions.NO_DATA));
+            String password = userDto.getPasswordSub();
+            String rawPassword = user.getPasswordSub();
+            if (!passwordEncoder.matches(password, rawPassword)) {
+                user.subPasswordFail();
+//                save?
+                throw new ServiceException(Exceptions.NO_DATA);
+            }
     }
 
     /**
@@ -63,4 +83,5 @@ public class UserService {
         userDto = Mapper.modelMapping(user, userDto);
         return userDto;
     }
+
 }

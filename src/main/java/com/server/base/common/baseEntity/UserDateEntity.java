@@ -49,5 +49,8 @@ public class UserDateEntity {
             this.withdrawalDate=LocalDateTime.now();
         }
     }
+    public void lockDown(){
+        this.userLockDate = LocalDateTime.now().plusMinutes(10L);
+    }
 
 }
