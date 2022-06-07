@@ -24,8 +24,10 @@ import javax.validation.Valid;
 @Slf4j
 @RequiredArgsConstructor
 public class BankController {
-    private final BankListService bankListService;
+//    전체Service
     private final BankCodeService bankCodeService;
+//    사용자Service
+    private final BankListService bankListService;
 
 // 전체
     @ApiOperation("전체 은행 목록 가져오기")
@@ -36,7 +38,11 @@ public class BankController {
 
 
 //    사용자
-
+    @ApiOperation("사용자 은행 목록 가져오기")
+    @GetMapping("/user")
+    public Response fetchUserBankList(@RequestHeader(name = HttpHeaders.AUTHORIZATION) Object authorizations){
+        return new Response(200, "", bankListService.fetchUserBankList((UserDto)authorizations));
+    }
     @ApiOperation("사용자 은행 목록 저장/수정")
     @PostMapping("/user/save")
     @Validated(Validations.saveBankList.class)

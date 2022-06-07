@@ -26,5 +26,5 @@ spring:
       name: ./logs/out.log
 
 CONSTANTS:
-  ISDEVMODE: false
-
+  ISDEVMODE: "false"
+  CORS: ""

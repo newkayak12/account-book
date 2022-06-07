@@ -16,6 +16,10 @@ import java.util.stream.Collectors;
 public class BankCodeService {
     private final BankCodeRepository bankCodeRepository;
 
+    /**
+     * 전체 은행 리스트 가져오기
+     * @return
+     */
     public List<BankCodeDto> fetchBankList() {
         return  bankCodeRepository.findAll().stream().map(item-> Mapper.modelMapping(item, new BankCodeDto()))
                 .collect(Collectors.toList());

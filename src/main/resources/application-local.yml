@@ -2,9 +2,9 @@ spring:
   profiles: local
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: ""
-    username: ""
-    password: ""
+    url:
+    username:
+    password:
     hikari:
       maximum-pool-size: 5
       connection-timeout: 5000
@@ -14,7 +14,7 @@ spring:
       max-lifetime: 1800000
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
   logging: ##LOGGING
     level:
       root: info
@@ -27,4 +27,5 @@ spring:
 
 CONSTANTS:
   ISDEVMODE: "true"
+  CORS: ""
 
