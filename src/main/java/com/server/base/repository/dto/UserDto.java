@@ -1,9 +1,9 @@
 package com.server.base.repository.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.server.base.common.enums.UserStatus;
 import com.server.base.common.authorizations.annotations.AuthorizeDto;
 import com.server.base.common.authorizations.annotations.IgnoreEncrypt;
+import com.server.base.common.enums.UserStatus;
 import com.server.base.common.validations.Validations;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -26,6 +26,8 @@ public class UserDto implements Serializable {
     private String userId;
     @NotNull(message = "이름을 입력해주세요", groups = { Validations.SignUp.class})
     private  String userName;
+    @NotNull(message = "전화번호를 입력해주세요", groups = { Validations.SignUp.class})
+    private  String userNum;
     private  Integer userFailCnt;
     @JsonIgnore
     @IgnoreEncrypt

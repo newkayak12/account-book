@@ -2,15 +2,12 @@ package com.server.base.repository.userRepository;
 
 import com.server.base.common.baseEntity.AuthEntity;
 import com.server.base.common.baseEntity.UserDateEntity;
-import io.jsonwebtoken.lang.Objects;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -35,6 +32,8 @@ public class User extends UserDateEntity {
     private String passwordSub;
     @Column(name = "user_name", length = 12)
     private String userName;
+    @Column(name = "user_num", length = 12)
+    private String userNum;
     @Column(name = "user_fail_cnt")
     private Integer userFailCnt;
     @Embedded

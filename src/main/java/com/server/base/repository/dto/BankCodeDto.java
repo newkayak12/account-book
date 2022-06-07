@@ -1,7 +1,6 @@
 package com.server.base.repository.dto;
 
 import com.server.base.common.authorizations.annotations.AuthorizeDto;
-import com.server.base.common.enums.RefBankCode;
 import lombok.*;
 
 import java.io.Serializable;
@@ -16,6 +15,6 @@ import java.io.Serializable;
 @ToString
 public class BankCodeDto implements Serializable {
     private  Long bankCodeNo;
-    private  RefBankCode bankCode;
+    private  String bankCode;
     private  String codeContents;
 }

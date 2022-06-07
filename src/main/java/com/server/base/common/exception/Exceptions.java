@@ -13,8 +13,13 @@ public enum Exceptions {
     NO_DATA(-1, "아이디 혹은 비밀번호가 잘못됐습니다."),
     SUB_PASSWORD_FAIL(-2, "비밀번호 오류 %d/5 \n 간편 비밀번호를 5회 이상 틀릴 경우 10분간 로그인을 제한합니다."),
 
+    //    GENERAL
+    EMPTY_DATA(-2000, "해당 데이터가 없습니다."),
+
 // BINDINGERROR
     BINDING_ERROR(-2000, "파라미터 %s가 잘못됐습니다.");
+
+
 
     private Integer code;
     private String msg;
