@@ -14,6 +14,6 @@ import javax.persistence.Embeddable;
 @Embeddable
 @Setter
 public class AuthEntity {
-    @Column(name = "user_refresh_token", length = 400)
+    @Column(name = "user_refresh_token", length = 250)
     private String refreshToken;
 }
