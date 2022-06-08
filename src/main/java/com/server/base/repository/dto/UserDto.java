@@ -26,10 +26,11 @@ public class UserDto implements Serializable {
     private String userId;
     @NotNull(message = "이름을 입력해주세요", groups = { Validations.SignUp.class})
     private  String userName;
+
     @NotNull(message = "전화번호를 입력해주세요", groups = { Validations.SignUp.class})
     private  String userNum;
     private  Integer userFailCnt;
-    @JsonIgnore
+//    @JsonIgnore(value = false)
     @IgnoreEncrypt
     @NotNull(message = "비밀번호를 입력해주세요", groups = {Validations.FirstSign.class,  Validations.SignUp.class})
     private String password;
@@ -38,12 +39,14 @@ public class UserDto implements Serializable {
     @Length(message = "간편 비밀번호를 올바르게 입력하세요", max = 4, min = 1, groups = {Validations.SecondSign.class})
     private String passwordSub;
     @JsonIgnore
-    private String refreshToken;
+    private AuthEntityDto authEntity=new AuthEntityDto();
     private UserStatus userStatus;
     private LocalDateTime regDate;
     private LocalDateTime lastLoginDate;
     private LocalDateTime userLockDate;
     private LocalDateTime withdrawalDate;
 
-
 }
+
+
+

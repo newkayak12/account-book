@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 @Getter
 @AllArgsConstructor
@@ -13,6 +14,6 @@ import javax.persistence.*;
 @Embeddable
 @Setter
 public class AuthEntity {
-    @Column(name = "user_refresh_token", length = 250, nullable = false)
+    @Column(name = "user_refresh_token", length = 400)
     private String refreshToken;
 }

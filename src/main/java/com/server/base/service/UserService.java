@@ -1,6 +1,5 @@
 package com.server.base.service;
 
-import com.server.base.common.authorizations.TokenManager;
 import com.server.base.common.exception.Exceptions;
 import com.server.base.common.exception.ServiceException;
 import com.server.base.common.mapper.Mapper;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 
 @Service
@@ -74,13 +74,19 @@ public class UserService {
      * @param userDto
      * @return
      */
-    @Transactional(rollbackFor = Exception.class)
-    public UserDto saveUser(UserDto userDto) {
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        User user = Mapper.modelMapping(userDto, new User());
-        user = userRepository.save(user);
-        user.setRefreshToken(TokenManager.refreshEncrypt(user.getUserNo()));
-        userDto = Mapper.modelMapping(user, userDto);
+    @Transactional(rollbackFor = {Exception.class})
+    public UserDto saveUser(UserDto userDto) throws ServiceException {
+           User user = userRepository.getUserByUserId(userDto.getUserId())
+                        .orElseGet(User::new);
+           if(!Objects.isNull(user)){
+               throw new ServiceException(Exceptions.ALREADY_EXIST);
+           }
+
+
+            userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            user = Mapper.modelMapping(userDto, new User());
+            user = userRepository.save(user);
+            userDto = Mapper.modelMapping(user, userDto);
         return userDto;
     }
 

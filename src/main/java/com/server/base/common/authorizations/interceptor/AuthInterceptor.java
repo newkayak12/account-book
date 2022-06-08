@@ -7,11 +7,8 @@ import com.server.base.common.exception.ServiceException;
 import com.server.base.repository.dto.UserDto;
 import com.server.base.service.UserService;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +23,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
+            System.out.println("INTERCEPTOR WORKS NOW!!!!!!!!!!!!!!!!");
             String accessToken = request.getHeader("Authorization");
             String refreshToken = request.getHeader(Constants.REFRESH_TOKEN);
             Boolean isExpired = null;

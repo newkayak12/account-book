@@ -19,6 +19,9 @@ public class UserStatusConverter implements AttributeConverter<UserStatus, Integ
 
     @Override
     public UserStatus convertToEntityAttribute(Integer integer) {
+        System.out.println("INT"+integer);
+        System.out.println("CONV :"+Arrays.stream(UserStatus.values())
+                .filter(v->integer.equals(v.getStatus())).findFirst().orElseGet(null));
         return Arrays.stream(UserStatus.values())
                 .filter(v->integer.equals(v.getStatus())).findFirst().orElseGet(null);
     }

@@ -42,7 +42,8 @@ public class UserController {
     public Response signIn(@Valid @ModelAttribute UserDto userDto,
                            HttpServletResponse response) throws ServiceException {
         UserDto result = userService.signIn(userDto);
-        response.addHeader(Constants.REFRESH_TOKEN, result.getRefreshToken());
+        response.addHeader(Constants.REFRESH_TOKEN, result.getAuthEntity().getRefreshToken());
+
         return new EncryptResponse( response, result,null);
     };
 
@@ -68,12 +69,13 @@ public class UserController {
             @Parameter(name = "userName", required = true, schema = @Schema(type = "String")),
             @Parameter(name = "password", required = true, schema = @Schema(type = "String")),
     })
-    @PostMapping("/signUp")
-    @Validated(Validations.SignUp.class)
-    public Response signUp(@Valid @RequestBody UserDto userDto,
-                            HttpServletResponse response) throws ServiceException{
+    @PostMapping(value = "/signUp")
+
+    public Response signUp( @Validated(Validations.SignUp.class) @Valid @RequestBody
+                        UserDto userDto, HttpServletResponse response) throws ServiceException {
         UserDto result = userService.saveUser(userDto);
-        response.addHeader(Constants.REFRESH_TOKEN, result.getRefreshToken());
+        System.out.println("RESULT {}??"+ result);
+        response.addHeader(Constants.REFRESH_TOKEN, result.getAuthEntity().getRefreshToken());
         return new EncryptResponse(response, result, null);
     }
     @ApiOperation("로그아웃")

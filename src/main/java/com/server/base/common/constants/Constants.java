@@ -35,7 +35,7 @@ public class Constants {
     @Value("${CONSTANTS.REFRESHTOKENNAME}")
     public void setRefreshToken(String _refresh_token){REFRESH_TOKEN=_refresh_token;}
     @Value("${CONSTANTS.CORS}")
-    public static void setCORS(String CORS) {
+    public void setCORS(String CORS) {
         Constants.CORS = CORS;
     }
 }
