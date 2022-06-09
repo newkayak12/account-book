@@ -45,7 +45,6 @@ public class UserDateEntity {
     }
     @PreUpdate
     public void withdrawal(){
-        System.out.println(this.status);
         if(this.status.getStatus().equals(-1)){
             this.withdrawalDate=LocalDateTime.now();
         }

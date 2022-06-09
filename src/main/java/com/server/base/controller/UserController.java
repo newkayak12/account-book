@@ -41,6 +41,7 @@ public class UserController {
     @Validated(Validations.FirstSign.class)
     public Response signIn(@Valid @ModelAttribute UserDto userDto,
                            HttpServletResponse response) throws ServiceException {
+        log.error("USERDTO {}", userDto);
         UserDto result = userService.signIn(userDto);
         response.addHeader(Constants.REFRESH_TOKEN, result.getAuthEntity().getRefreshToken());
 

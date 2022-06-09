@@ -46,6 +46,8 @@ public class TokenManager {
                 e.printStackTrace();
             }
             Long ignoreCount = Arrays.stream(annotations).filter(item-> item.annotationType().equals(IgnoreEncrypt.class)).count();
+
+
             if(!fieldType.isInstance(java.time.LocalDateTime.now())&&!fieldType.isInstance(java.time.LocalDate.now())
                     &&!fieldType.isInstance(java.time.LocalTime.now())&&!(ignoreCount>0)){
                 map.put(fieldName, fieldValue);

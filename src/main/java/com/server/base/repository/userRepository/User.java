@@ -1,6 +1,7 @@
 package com.server.base.repository.userRepository;
 
 import com.server.base.common.authorizations.TokenManager;
+import com.server.base.common.authorizations.annotations.IgnoreEncrypt;
 import com.server.base.common.baseEntity.AuthEntity;
 import com.server.base.common.baseEntity.UserDateEntity;
 import lombok.*;

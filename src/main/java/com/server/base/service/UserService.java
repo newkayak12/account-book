@@ -78,11 +78,9 @@ public class UserService {
     public UserDto saveUser(UserDto userDto) throws ServiceException {
            User user = userRepository.getUserByUserId(userDto.getUserId())
                         .orElseGet(User::new);
-           if(!Objects.isNull(user)){
+           if(!Objects.isNull(user)&&user.equals(new User())){
                throw new ServiceException(Exceptions.ALREADY_EXIST);
            }
-
-
             userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
             user = Mapper.modelMapping(userDto, new User());
             user = userRepository.save(user);

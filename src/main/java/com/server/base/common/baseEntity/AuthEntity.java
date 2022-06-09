@@ -1,5 +1,6 @@
 package com.server.base.common.baseEntity;
 
+import com.server.base.common.authorizations.annotations.IgnoreEncrypt;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
