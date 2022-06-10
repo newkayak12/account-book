@@ -2,9 +2,9 @@ spring:
   profiles: local
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://newkayak.myqnapcloud.com:3602/accountBook
-    username: root
-    password: q1w2e3R4T%
+    url:
+    username:
+    password:
     hikari:
       maximum-pool-size: 5
       connection-timeout: 5000
