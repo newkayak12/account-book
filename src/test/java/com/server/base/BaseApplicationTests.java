@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.base.common.authorizations.TokenManager;
 import com.server.base.common.constants.Constants;
 import com.server.base.repository.dto.UserDto;
+import com.server.base.repository.userRepository.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -31,7 +33,7 @@ class BaseApplicationTests {
     HttpHeaders httpHeaders;
     RestTemplate rt;
     String refresh = "Bearer eyJ0eXAiOiJyZiIsImFsZyI6IkhTNTEyIn0.eyJ1c2VyTm8iOjEsImlzcyI6IlNQUklOR19CQVNFIiwiaWF0IjoxNjU0Nzc2NDMxfQ.zFQrdsMMqK-MlVkHovH2XXE7T6-1U_ihSAa_XX6gAR2UANUFeD7jXPb-ruWS2K5wwvVEthEQlVZQGP8BF9v1OQ";
-    String authorization =  "Bearer eyJ0eXAiOiJhYyIsImFsZyI6IkhTNTEyIn0.eyJ1c2VyTnVtIjoiMDEwMTIzNDEyMzQiLCJ1c2VyU3RhdHVzIjoiQUNUSVZBVEVEIiwiYXV0aEVudGl0eSI6eyJyZWZyZXNoVG9rZW4iOiJCZWFyZXIgZXlKMGVYQWlPaUp5WmlJc0ltRnNaeUk2SWtoVE5URXlJbjAuZXlKMWMyVnlUbThpT2pFc0ltbHpjeUk2SWxOUVVrbE9SMTlDUVZORklpd2lhV0YwSWpveE5qVTBOemMyTkRNeGZRLnpGUXJkc01NcUstTWxWa0hvdkgyWFhFN1Q2LTFVX2loU0FhX1hYNmdBUjJVQU5VRmVEN2pYUGItcnVXUzJLNXd3dlZFdGhFUWxWWlFHUDhCRjl2MU9RIn0sInVzZXJObyI6MSwiaXNzIjoiU1BSSU5HX0JBU0UiLCJ1c2VyTmFtZSI6InRlc3QxIiwiZXhwIjoxNjU0ODE5NjMxLCJ1c2VySWQiOiJ0ZXN0MTIiLCJ1c2VyRmFpbENudCI6bnVsbCwiaWF0IjoxNjU0Nzc2NDMxfQ.4NGDb8gm3pdzZt8zXRquTadpQWeZDiB8_9l5khKjF5HC4zl8M3M5o5AQ8KReTB_FUwgBLS2iOqHIl1AjCdNjKw";
+    String authorization =  "Bearer eyJ0eXAiOiJhYyIsImFsZyI6IkhTNTEyIn0.eyJ1c2VyTnVtIjoiMDEwMTIzNDEyMzQiLCJ1c2VyU3RhdHVzIjoiQUNUSVZBVEVEIiwidXNlck5vIjoxLCJpc3MiOiJTUFJJTkdfQkFTRSIsInVzZXJOYW1lIjoidGVzdDEiLCJleHAiOjE2NTQ5MTI3NDEsInVzZXJJZCI6InRlc3QxMiIsImlhdCI6MTY1NDg2OTU0MX0.DHU17YvO_KQvp4uFGjFf-XOqasc7VTmOHXf0z7p_Ak0ajRfG1H5NjRZ9abjXpkA9iIhJO5M1yEAtCjetd0eLUw";
     String userPrefix = "http://localhost:8080/api/user/";
 
     @BeforeEach
@@ -41,7 +43,7 @@ class BaseApplicationTests {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.set(Constants.REFRESH_TOKEN, refresh);
         httpHeaders.set(HttpHeaders.AUTHORIZATION, authorization);
-        rt = new RestTemplate();
+        rt = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
     }
 
 
@@ -124,4 +126,18 @@ class BaseApplicationTests {
         get("signIn", v);
     }
 
+    @Test
+    void subPasswordSignIn(){
+        UserDto v = new UserDto();
+        v.setUserId("test12");
+        v.setPasswordSub("0626");
+        patch("easySignUp", v);
+    }
+
+    @Test
+    void subPasswordSign(){
+        UserDto v = new UserDto();
+        v.setPasswordSub("0626");
+        get("easySignIn", v);
+    }
 }

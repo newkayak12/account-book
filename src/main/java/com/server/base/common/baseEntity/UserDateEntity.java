@@ -1,5 +1,6 @@
 package com.server.base.common.baseEntity;
 
+import com.server.base.common.constants.Constants;
 import com.server.base.common.converter.UserStatusConverter;
 import com.server.base.common.enums.UserStatus;
 import lombok.AllArgsConstructor;
@@ -50,7 +51,7 @@ public class UserDateEntity {
         }
     }
     public void lockDown(){
-        this.userLockDate = LocalDateTime.now().plusMinutes(10L);
+        this.userLockDate = LocalDateTime.now().plusMinutes(Constants.LOCK_DOWN_TIME);
     }
 
 }

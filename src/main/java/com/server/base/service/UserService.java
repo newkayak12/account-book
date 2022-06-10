@@ -8,6 +8,7 @@ import com.server.base.repository.userRepository.User;
 import com.server.base.repository.userRepository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,14 +24,15 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+
     /**
      * Refresh 토큰 가져오기
      * @param userNo
      * @return
      */
     @Transactional(readOnly = true)
-    public String getRefreshToken(Long userNo){
-        return userRepository.getUserByUserNo(userNo).getAuthEntity().getRefreshToken();
+    public UserDto getRefreshToken(Long userNo){
+        return Mapper.modelMapping(userRepository.getUserByUserNo(userNo), new UserDto());
     }
 
     /**
@@ -52,11 +54,22 @@ public class UserService {
     }
 
     /**
+     * 간편 비밀번호 설정
+     * @param userDto
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void easySignUp(UserDto userDto) throws ServiceException {
+        User user = userRepository.getUserByUserIdAndUserLockDateBefore(userDto.getUserId(), LocalDateTime.now())
+                .orElseThrow(()-> new ServiceException(Exceptions.NO_DATA));
+        user.setPasswordSub(passwordEncoder.encode(userDto.getPasswordSub()));
+    }
+
+    /**
      * 간편 로그인
      * @param userDto
      * @throws ServiceException
      */
-    @Transactional(readOnly = true)
+    @Transactional(rollbackFor = Exception.class)
     public void easySignIn(UserDto userDto) throws ServiceException {
             User user = userRepository.getUserByUserIdAndUserLockDateBefore(userDto.getUserId(), LocalDateTime.now())
                     .orElseThrow(() -> new ServiceException(Exceptions.NO_DATA));
@@ -64,7 +77,6 @@ public class UserService {
             String rawPassword = user.getPasswordSub();
             if (!passwordEncoder.matches(password, rawPassword)) {
                 user.subPasswordFail();
-//                save?
                 throw new ServiceException(Exceptions.NO_DATA);
             }
     }
@@ -87,5 +99,6 @@ public class UserService {
             userDto = Mapper.modelMapping(user, userDto);
         return userDto;
     }
+
 
 }

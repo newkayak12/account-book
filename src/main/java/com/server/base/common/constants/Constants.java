@@ -17,6 +17,7 @@ public class Constants {
     public static String REFRESH_TOKEN;
     public static String CORS;
     public static List<String> API_PATH;
+    public static Long LOCK_DOWN_TIME;
 
     @Value("${CONSTANTS.PROJECTNAME}")
     public void setProjectName(String _projectName){
@@ -38,4 +39,6 @@ public class Constants {
     public void setCORS(String CORS) {
         Constants.CORS = CORS;
     }
+    @Value("${CONSTANTS.LOCKDOWNTIME}")
+    public void setLockDownTime(Long _lock_down_time){Constants.LOCK_DOWN_TIME=_lock_down_time; }
 }

@@ -50,7 +50,9 @@ public class User extends UserDateEntity implements Serializable {
         System.out.println("TOKEN!! "+TokenManager.refreshEncrypt(this.userNo));
        authEntity.setRefreshToken(TokenManager.refreshEncrypt(this.userNo));
     }
-
+    public void setPasswordSub(String passwordSub){
+        this.passwordSub = passwordSub;
+    }
     public void subPasswordFail(){
         if(this.userFailCnt<=5){
             this.userFailCnt+=1;
@@ -61,5 +63,4 @@ public class User extends UserDateEntity implements Serializable {
 
 
     }
-//    LOCK
 }

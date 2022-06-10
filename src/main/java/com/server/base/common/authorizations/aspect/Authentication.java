@@ -2,6 +2,7 @@ package com.server.base.common.authorizations.aspect;
 
 import com.server.base.common.authorizations.TokenManager;
 import com.server.base.common.authorizations.annotations.AuthorizeDto;
+import com.server.base.common.constants.Constants;
 import com.server.base.common.exception.Exceptions;
 import com.server.base.common.exception.ServiceException;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -19,6 +20,14 @@ public class Authentication {
 
     @Around("@annotation(com.server.base.common.authorizations.annotations.Authorization)")
     public Object decrypt(ProceedingJoinPoint joinPoint) throws Throwable {
+        if(Constants.IS_DEV_MODE){
+            System.out.println("  ___   _____ ______ ");
+            System.out.println(" / _ \\ |  _  || ___ \\");
+            System.out.println("/ /_\\ \\| | | || |_/ /");
+            System.out.println("|  _  || | | ||  __/ ");
+            System.out.println("| | | |\\ \\_/ /| |    ");
+            System.out.println("\\_| |_/ \\___/ \\_|    ");
+        }
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Object[] parameterValues = joinPoint.getArgs();
         Parameter[] parameters = methodSignature.getMethod().getParameters();
