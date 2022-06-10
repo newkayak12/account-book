@@ -3,6 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+src/main/java/com/server/base/common/configurations/jsonLog/log.json
+
 
 ### STS ###
 .apt_generated
