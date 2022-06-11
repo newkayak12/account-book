@@ -58,7 +58,6 @@ public class UserController {
             @Parameter(name = "password", required = true, schema = @Schema(type = "String")),
     })
     @PostMapping(value = "/signUp")
-
     public Response signUp( @Validated(Validations.SignUp.class) @Valid @RequestBody
                                     UserDto userDto, HttpServletResponse response) throws ServiceException {
         UserDto result = userService.saveUser(userDto);
@@ -74,13 +73,14 @@ public class UserController {
     }
 
     @ApiOperation(value = "간편 로그인 설정", httpMethod = "PATCH")
+    @Parameters({
+            @Parameter(name = "passwordSub", schema = @Schema(type = "String"))
+    })
     @PatchMapping(value = "/easySignUp")
     @Authorization
     public Response easySignUp(@RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations,
                                @Validated(Validations.SecondSign.class) @Valid @RequestBody UserDto userDto) throws ServiceException {
         UserDto params = (UserDto) authorizations;
-
-        log.warn("userDto {}", userDto);
         params.setPasswordSub(userDto.getPasswordSub());
         userService.easySignUp(params);
         return new Response(200, "", null);
@@ -98,9 +98,26 @@ public class UserController {
         UserDto params = (UserDto) authorizations;
         params.setPasswordSub(userDto.getPasswordSub());
         userService.easySignIn(params);
-        return new Response(200, "", null);
+        return new Response(200, "간편 비밀번호가 설정되었습니다.", null);
     }
 
+    @ApiOperation(value = "비밀번호 변경", httpMethod = "PATCH")
+    @Parameters({
+            @Parameter(name = "password", schema = @Schema(type = "String")),
+            @Parameter(name = "passwordNew", schema = @Schema(type = "String"))
+    })
+    @PatchMapping(value = "/changePw")
+    @Authorization
+    public Response changePassword(
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations,
+            @Validated(Validations.changePassword.class) @Valid @RequestBody UserDto userDto,
+            HttpServletResponse response
+    ) throws ServiceException {
+        UserDto dto = (UserDto) authorizations;
+        dto.setPassword(userDto.getPassword());
+        dto.setPasswordNew(userDto.getPasswordNew());
+        return new EncryptResponse(response, userService.changePassword(dto), null);
+    }
 
 
 }
