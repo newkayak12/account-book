@@ -8,13 +8,16 @@ import java.util.List;
 
 @Component
 public class Constants {
+
     public static String PROJECT_NAME;
     public static Boolean IS_DEV_MODE;
     public static String SALT_VALUE;
     public static String ACCESS_TOKEN;
     public static String REFRESH_SALT_VALUE;
     public static String REFRESH_TOKEN;
+    public static String CORS;
     public static List<String> API_PATH;
+    public static Long LOCK_DOWN_TIME;
 
     @Value("${CONSTANTS.PROJECTNAME}")
     public void setProjectName(String _projectName){
@@ -32,4 +35,10 @@ public class Constants {
     public void setAccessToken(String _access_token){ACCESS_TOKEN=_access_token; }
     @Value("${CONSTANTS.REFRESHTOKENNAME}")
     public void setRefreshToken(String _refresh_token){REFRESH_TOKEN=_refresh_token;}
+    @Value("${CONSTANTS.CORS}")
+    public void setCORS(String CORS) {
+        Constants.CORS = CORS;
+    }
+    @Value("${CONSTANTS.LOCKDOWNTIME}")
+    public void setLockDownTime(Long _lock_down_time){Constants.LOCK_DOWN_TIME=_lock_down_time; }
 }

@@ -1,13 +1,17 @@
 package com.server.base.repository.userRepository;
 
+import com.server.base.common.authorizations.TokenManager;
+import com.server.base.common.authorizations.annotations.IgnoreEncrypt;
 import com.server.base.common.baseEntity.AuthEntity;
 import com.server.base.common.baseEntity.UserDateEntity;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.util.ObjectUtils;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table
@@ -17,9 +21,10 @@ import javax.persistence.*;
 @Builder
 @EqualsAndHashCode
 @ToString
+@EntityListeners(AuditingEntityListener.class)
 @DynamicUpdate
 @DynamicInsert
-public class User extends UserDateEntity {
+public class User extends UserDateEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, name = "user_no")
@@ -34,17 +39,20 @@ public class User extends UserDateEntity {
     private String userName;
     @Column(name = "user_num", length = 12)
     private String userNum;
+    @ColumnDefault(value = "0")
     @Column(name = "user_fail_cnt")
     private Integer userFailCnt;
     @Embedded
-    private AuthEntity authEntity;
+    private AuthEntity authEntity = new AuthEntity();
 
-    public void setRefreshToken(String value){
-        if(ObjectUtils.isEmpty(this.authEntity.getRefreshToken())){
-            authEntity.setRefreshToken(value);
-        }
+    @PostPersist
+    private void setRefreshToken(){
+        System.out.println("TOKEN!! "+TokenManager.refreshEncrypt(this.userNo));
+       authEntity.setRefreshToken(TokenManager.refreshEncrypt(this.userNo));
     }
-
+    public void setPasswordSub(String passwordSub){
+        this.passwordSub = passwordSub;
+    }
     public void subPasswordFail(){
         if(this.userFailCnt<=5){
             this.userFailCnt+=1;
@@ -55,5 +63,4 @@ public class User extends UserDateEntity {
 
 
     }
-//    LOCK
 }

@@ -5,7 +5,9 @@ import com.server.base.common.exception.ServiceException;
 import com.server.base.common.responseContainer.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 @Slf4j
@@ -19,7 +21,8 @@ public class ControllerAdvisor {
         if(!isDevMode){
             return new Response(-500, "일시적인 오류입니다.", null);
         }
-        log.error("{}\n{}", e.getMessage(), e.getStackTrace());
+        log.error("EXCEPTION ::::  {}", e.getMessage());
+        e.printStackTrace();
         return new Response(e.getCode(), e.getMsg(), null);
     }
 
@@ -30,7 +33,8 @@ public class ControllerAdvisor {
         if(!isDevMode){
             return new Response(-500, "일시적인 오류입니다.", null);
         }
-        log.error("{}\n{}", e.getMessage(), e.getStackTrace());
+        log.error("EXCEPTION ::::  {}", e.getMessage());
+        e.printStackTrace();
         return new Response(-500, e.getMessage(), null);
     }
 
@@ -41,7 +45,8 @@ public class ControllerAdvisor {
         if(!isDevMode){
             return new Response(-500, "일시적인 오류입니다.", null);
         }
-        log.error("{}\n{}", e.getMessage(), e.getStackTrace());
+        log.error("EXCEPTION ::::  {}", e.getMessage());
+        e.printStackTrace();
         return new Response(-500, e.getMessage(), null);
     }
 }

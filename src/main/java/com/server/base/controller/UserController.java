@@ -1,5 +1,6 @@
 package com.server.base.controller;
 
+import com.server.base.common.authorizations.annotations.Authorization;
 import com.server.base.common.constants.Constants;
 import com.server.base.common.exception.ServiceException;
 import com.server.base.common.responseContainer.EncryptResponse;
@@ -7,6 +8,7 @@ import com.server.base.common.responseContainer.Response;
 import com.server.base.common.validations.BindingErrorChecker;
 import com.server.base.common.validations.Validations;
 import com.server.base.repository.dto.UserDto;
+import com.server.base.repository.userRepository.User;
 import com.server.base.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Map;
+import java.util.Objects;
 
 
 //@Tag(name = "/api/user", description = "회원")
@@ -41,26 +45,11 @@ public class UserController {
     @Validated(Validations.FirstSign.class)
     public Response signIn(@Valid @ModelAttribute UserDto userDto,
                            HttpServletResponse response) throws ServiceException {
+        log.error("USERDTO {}", userDto);
         UserDto result = userService.signIn(userDto);
-        response.addHeader(Constants.REFRESH_TOKEN, result.getRefreshToken());
-        return new EncryptResponse( response, result,null);
+        response.addHeader(Constants.REFRESH_TOKEN, result.getAuthEntity().getRefreshToken());
+        return new EncryptResponse( response, result, Map.of("subPassword", Objects.isNull(result.getPasswordSub())?false:true));
     };
-
-
-    @ApiOperation(value = "간편 로그인", httpMethod = "GET")
-    @Parameters({
-        @Parameter(name = "passwordSub", required = true, schema = @Schema(type = "String"))
-    })
-    @GetMapping(value = "easySignIn")
-    @Validated(Validations.SecondSign.class)
-    public Response easySignIn(
-            @RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations,
-            @Valid @ModelAttribute UserDto userDto) throws ServiceException {
-        UserDto params = (UserDto) authorizations;
-        params.setPasswordSub(userDto.getPasswordSub());
-        userService.easySignIn(params);
-        return new Response(200, "", null);
-    }
 
     @ApiOperation("회원가입")
     @Parameters({
@@ -68,12 +57,13 @@ public class UserController {
             @Parameter(name = "userName", required = true, schema = @Schema(type = "String")),
             @Parameter(name = "password", required = true, schema = @Schema(type = "String")),
     })
-    @PostMapping("/signUp")
-    @Validated(Validations.SignUp.class)
-    public Response signUp(@Valid @RequestBody UserDto userDto,
-                            HttpServletResponse response) throws ServiceException{
+    @PostMapping(value = "/signUp")
+
+    public Response signUp( @Validated(Validations.SignUp.class) @Valid @RequestBody
+                                    UserDto userDto, HttpServletResponse response) throws ServiceException {
         UserDto result = userService.saveUser(userDto);
-        response.addHeader(Constants.REFRESH_TOKEN, result.getRefreshToken());
+        System.out.println("RESULT {}??"+ result);
+        response.addHeader(Constants.REFRESH_TOKEN, result.getAuthEntity().getRefreshToken());
         return new EncryptResponse(response, result, null);
     }
     @ApiOperation("로그아웃")
@@ -82,6 +72,35 @@ public class UserController {
         response.addHeader(Constants.REFRESH_TOKEN, null);
         response.addHeader(HttpHeaders.AUTHORIZATION, null);
     }
+
+    @ApiOperation(value = "간편 로그인 설정", httpMethod = "PATCH")
+    @PatchMapping(value = "/easySignUp")
+    @Authorization
+    public Response easySignUp(@RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations,
+                               @Validated(Validations.SecondSign.class) @Valid @RequestBody UserDto userDto) throws ServiceException {
+        UserDto params = (UserDto) authorizations;
+
+        log.warn("userDto {}", userDto);
+        params.setPasswordSub(userDto.getPasswordSub());
+        userService.easySignUp(params);
+        return new Response(200, "", null);
+    }
+
+    @ApiOperation(value = "간편 로그인", httpMethod = "GET")
+    @Parameters({
+        @Parameter(name = "passwordSub", required = true, schema = @Schema(type = "String"))
+    })
+    @GetMapping(value = "/easySignIn")
+    @Authorization
+    public Response easySignIn(
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations,
+            @Validated(Validations.SecondSign.class) @Valid @ModelAttribute UserDto userDto) throws ServiceException {
+        UserDto params = (UserDto) authorizations;
+        params.setPasswordSub(userDto.getPasswordSub());
+        userService.easySignIn(params);
+        return new Response(200, "", null);
+    }
+
 
 
 }

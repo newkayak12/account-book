@@ -1,11 +1,11 @@
 package com.server.base.common.baseEntity;
 
-import com.server.base.common.enums.UserStatus;
+import com.server.base.common.constants.Constants;
 import com.server.base.common.converter.UserStatusConverter;
+import com.server.base.common.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDateEntity {
-    @ColumnDefault(value = "0")
+//    @ColumnDefault(value = "0")
     @Column(name = "user_stts")
     @Convert(converter = UserStatusConverter.class)
     private UserStatus status;
@@ -38,19 +38,20 @@ public class UserDateEntity {
     @PrePersist
     public void signUp(){
         this.regDate=LocalDateTime.now();
+        this.status=UserStatus.ACTIVATED;
     }
     @PostLoad
     public void signIn(){
         this.lastLoginDate = LocalDateTime.now();
     }
-    @PostUpdate
+    @PreUpdate
     public void withdrawal(){
         if(this.status.getStatus().equals(-1)){
             this.withdrawalDate=LocalDateTime.now();
         }
     }
     public void lockDown(){
-        this.userLockDate = LocalDateTime.now().plusMinutes(10L);
+        this.userLockDate = LocalDateTime.now().plusMinutes(Constants.LOCK_DOWN_TIME);
     }
 
 }
