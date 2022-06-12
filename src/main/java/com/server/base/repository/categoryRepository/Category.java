@@ -3,12 +3,13 @@ package com.server.base.repository.categoryRepository;
 import com.server.base.repository.categorySubRepository.CategorySub;
 import com.server.base.repository.userRepository.User;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.List;
+
+
 
 @Entity
 @Table
@@ -29,6 +30,7 @@ public class Category {
     @JoinColumn(name = "user_no", referencedColumnName = "user_no")
     private User user;
     private String category_etc1;
+//    @BatchSize(size = 100)
     @OneToMany(mappedBy = "category", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<CategorySub> category_etc2_list;
     private Boolean isIncome;
