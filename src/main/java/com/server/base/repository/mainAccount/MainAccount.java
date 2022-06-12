@@ -44,9 +44,6 @@ public class MainAccount {
     private String mainAccountPrice;
 
     @OneToOne
-    @JoinColumn(name = "my_money_no", referencedColumnName = "my_money_no")
-    private MyMoney mainAccountTotalPrice;
-    @OneToOne
     @JoinColumn(name = "category_no", referencedColumnName = "category_no")
     private Category category;
 
@@ -73,12 +70,11 @@ public class MainAccount {
     private Boolean isIncome;
 
     @Builder
-    public MainAccount(LocalDateTime mainAccountDate, String mainAccountPrice, MyMoney mainAccountTotalPrice,
-                       Category category, String mainAccountBankCode,String mainAccountBankContents,
-                       RefAccountCode mainAccountCode,RefPaymentType paymentType, String mainAccountContents) {
+    public MainAccount(LocalDateTime mainAccountDate, String mainAccountPrice, Category category,
+                       String mainAccountBankCode,String mainAccountBankContents, RefAccountCode mainAccountCode,
+                       RefPaymentType paymentType, String mainAccountContents) {
         this.mainAccountDate = mainAccountDate;
         this.mainAccountPrice = mainAccountPrice;
-        this.mainAccountTotalPrice = mainAccountTotalPrice;
         this.category = category;
         this.mainAccountBankCode = mainAccountBankCode;
         this.mainAccountBankContents = mainAccountBankContents;
@@ -93,9 +89,7 @@ public class MainAccount {
     }
     @PostLoad
     public void setIsIncome(){
-        String cCode = this.mainAccountCode.getCCode();
-//        조건에 따라 입
-        if(true) {
+        if(this.mainAccountPrice.contains("+")) {
             this.isIncome = true;
         } else {
             this.isIncome = false;
