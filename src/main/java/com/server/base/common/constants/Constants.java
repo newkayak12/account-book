@@ -18,6 +18,7 @@ public class Constants {
     public static String CORS;
     public static List<String> API_PATH;
     public static Long LOCK_DOWN_TIME;
+    public static Integer SUB_CATEGORY_MAX_COUNT;
 
     @Value("${CONSTANTS.PROJECTNAME}")
     public void setProjectName(String _projectName){
@@ -41,4 +42,6 @@ public class Constants {
     }
     @Value("${CONSTANTS.LOCKDOWNTIME}")
     public void setLockDownTime(Long _lock_down_time){Constants.LOCK_DOWN_TIME=_lock_down_time; }
+    @Value("${CONSTANTS.SUBCATEGORYMAXCOUNT}")
+    public void setSubCategoryMaxCount(Integer _sub_category_max_count){Constants.SUB_CATEGORY_MAX_COUNT = _sub_category_max_count; }
 }

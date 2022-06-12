@@ -1,5 +1,6 @@
 package com.server.base.repository.categoryRepository;
 
+import com.server.base.repository.categorySubRepository.CategorySub;
 import com.server.base.repository.userRepository.User;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -28,7 +29,7 @@ public class Category {
     @JoinColumn(name = "user_no", referencedColumnName = "user_no")
     private User user;
     private String category_etc1;
-    @OneToMany(mappedBy = "category", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<CategorySub> category_etc2_list;
     private Boolean isIncome;
     @Column(columnDefinition = "TEXT", name = "category_image")

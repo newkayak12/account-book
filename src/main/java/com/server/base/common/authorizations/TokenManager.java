@@ -86,7 +86,6 @@ public class TokenManager {
             .getBody();
         } catch( ExpiredJwtException  e){
             claims =  e.getClaims();
-            System.out.println("재발급!");
             if(!claims.get("iss").equals(Constants.PROJECT_NAME)){
                 throw new ServiceException(Exceptions.INVALID_TOKEN);
             }

@@ -9,6 +9,13 @@ public class Validations {
 
 //   category
     public interface saveMain{};
+    public interface saveSub{};
+    public interface removeMain{};
+    public interface removeSub{};
 
+    public interface fetchSub{};
+
+//    common
+    public interface paging{};
 
 }

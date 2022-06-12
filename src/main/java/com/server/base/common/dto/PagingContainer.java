@@ -11,7 +11,7 @@ import java.util.List;
 public class PagingContainer <T> {
     List<T> list;
     PageInfo pageInfo;
-    public  void commit(Pageable pageInfo, Page<T> listFunction){
+    public  PagingContainer (Pageable pageInfo, Page<T> listFunction){
         this.list = listFunction.getContent();
         this.pageInfo = PageInfo.builder()
                 .page(pageInfo.getOffset())
