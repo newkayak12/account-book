@@ -30,7 +30,9 @@ public class Category {
     private String category_etc1;
     @OneToMany(mappedBy = "category", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CategorySub> category_etc2_list;
-
+    private Boolean isIncome;
+    @Column(columnDefinition = "TEXT", name = "category_image")
+    private String categoryImage;
 
     public void setUser(User user){
         this.user = user;
