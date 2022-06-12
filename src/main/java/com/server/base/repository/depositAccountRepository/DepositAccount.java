@@ -6,7 +6,6 @@ import com.server.base.common.converter.WeekConverter;
 import com.server.base.common.enums.RefPaymentType;
 import com.server.base.common.enums.RefRepeatType;
 import com.server.base.common.enums.RefWeekday;
-import com.server.base.repository.bankCodeRepository.BankCode;
 import com.server.base.repository.userRepository.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -40,9 +39,6 @@ public class DepositAccount {
     private LocalDate depositAccountStartDate;
     @Column(name = "de_account_e_date")
     private LocalDate depositAccountEndDate;
-    @OneToOne
-    @JoinColumn(name = "de_account_bank_code", referencedColumnName = "bank_code_no")
-    private BankCode bankCode;
     @Column(name = "de_account_contents")
     private String depositAccountContents;
     @Convert(converter = PaymentTypeConverter.class)
@@ -63,14 +59,13 @@ public class DepositAccount {
 
     @Builder
     public DepositAccount(Long depositAccountPrice, LocalDate depositAccountDate, LocalDate depositAccountStartDate,
-                          LocalDate depositAccountEndDate,BankCode bankCode, String depositAccountContents,
+                          LocalDate depositAccountEndDate, String depositAccountContents,
                           RefPaymentType paymentType, Integer depositAccountLoopCountTotal, RefRepeatType repeatPeriod,
                           RefWeekday weekday) {
         this.depositAccountPrice = depositAccountPrice;
         this.depositAccountDate = depositAccountDate;
         this.depositAccountStartDate = depositAccountStartDate;
         this.depositAccountEndDate = depositAccountEndDate;
-        this.bankCode = bankCode;
         this.depositAccountContents = depositAccountContents;
         this.paymentType = paymentType;
         this.depositAccountLoopCountTotal = depositAccountLoopCountTotal;

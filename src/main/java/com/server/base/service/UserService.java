@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.*;
 
 
 @Service
@@ -43,7 +43,7 @@ public class UserService {
      */
     @Transactional(readOnly = true)
     public UserDto signIn(UserDto userDto) throws ServiceException{
-        User user = userRepository.getUserByUserId(userDto.getUserId())
+        User user = userRepository.getUserByUserIdAndUserLockDateBefore(userDto.getUserId(), LocalDateTime.now())
                 .orElseThrow(() ->  new ServiceException(Exceptions.NO_DATA));
         String password = userDto.getPassword();
         String rawPassword = user.getPassword();
@@ -100,5 +100,18 @@ public class UserService {
         return userDto;
     }
 
-
+    /**
+     * 사용자 비밀번호 변경
+     * @param userDto
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public UserDto changePassword(UserDto userDto) throws ServiceException {
+        User user = userRepository.getUserByUserIdAndUserLockDateBefore(userDto.getUserId(), LocalDateTime.now())
+                .orElseThrow(()->{ return new ServiceException(Exceptions.NO_DATA);});
+        if(!passwordEncoder.matches(userDto.getPassword(), user.getPassword())){
+            throw  new ServiceException(Exceptions.NO_DATA);
+        }
+        user.setPassword(userDto.getPasswordNew());
+        return Mapper.modelMapping(user, new UserDto());
+    }
 }
