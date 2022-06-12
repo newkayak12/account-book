@@ -2,17 +2,21 @@ package com.server.base.repository.mainAccount;
 
 import com.server.base.common.converter.AccountCodeConverter;
 import com.server.base.common.converter.PaymentTypeConverter;
+import com.server.base.common.converter.RepeatTypeConverter;
 import com.server.base.common.enums.RefAccountCode;
 import com.server.base.common.enums.RefPaymentType;
+import com.server.base.common.enums.RefRepeatType;
 import com.server.base.repository.categoryRepository.Category;
 import com.server.base.repository.myMoneyRepository.MyMoney;
 import com.server.base.repository.userRepository.User;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +61,12 @@ public class MainAccount {
     @Column(name = "main_account_payment_type")
     private RefPaymentType paymentType;
     private String mainAccountContents;
+    @Convert(converter = RepeatTypeConverter.class)
+    @ColumnDefault(value = "0")
+    @Column(name = "loop_type")
+    private RefRepeatType loopType;
+    @Column(name = "loop_end_date")
+    private LocalDate loopEndDate;
 
 
     @Transient
