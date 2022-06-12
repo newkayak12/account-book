@@ -24,15 +24,17 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_no")
     private Long categoryNo;
-    @ColumnDefault(value = "-1")
-    @Column(name = "user_no")
-    private Long userNo;
+    @ManyToOne
+    @JoinColumn(name = "user_no", referencedColumnName = "user_no")
+    private User user;
     private String category_etc1;
     @OneToMany(mappedBy = "category", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CategorySub> category_etc2_list;
-
+    private Boolean isIncome;
+    @Column(columnDefinition = "TEXT", name = "category_image")
+    private String categoryImage;
 
     public void setUser(User user){
-        this.userNo = user.getUserNo();
+        this.user = user;
     }
 }

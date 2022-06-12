@@ -2,17 +2,21 @@ package com.server.base.repository.mainAccount;
 
 import com.server.base.common.converter.AccountCodeConverter;
 import com.server.base.common.converter.PaymentTypeConverter;
+import com.server.base.common.converter.RepeatTypeConverter;
 import com.server.base.common.enums.RefAccountCode;
 import com.server.base.common.enums.RefPaymentType;
+import com.server.base.common.enums.RefRepeatType;
 import com.server.base.repository.categoryRepository.Category;
 import com.server.base.repository.myMoneyRepository.MyMoney;
 import com.server.base.repository.userRepository.User;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +44,6 @@ public class MainAccount {
     private String mainAccountPrice;
 
     @OneToOne
-    @JoinColumn(name = "my_money_no", referencedColumnName = "my_money_no")
-    private MyMoney mainAccountTotalPrice;
-    @OneToOne
     @JoinColumn(name = "category_no", referencedColumnName = "category_no")
     private Category category;
 
@@ -57,18 +58,23 @@ public class MainAccount {
     @Column(name = "main_account_payment_type")
     private RefPaymentType paymentType;
     private String mainAccountContents;
+    @Convert(converter = RepeatTypeConverter.class)
+    @ColumnDefault(value = "0")
+    @Column(name = "loop_type")
+    private RefRepeatType loopType;
+    @Column(name = "loop_end_date")
+    private LocalDate loopEndDate;
 
 
     @Transient
     private Boolean isIncome;
 
     @Builder
-    public MainAccount(LocalDateTime mainAccountDate, String mainAccountPrice, MyMoney mainAccountTotalPrice,
-                       Category category, String mainAccountBankCode,String mainAccountBankContents,
-                       RefAccountCode mainAccountCode,RefPaymentType paymentType, String mainAccountContents) {
+    public MainAccount(LocalDateTime mainAccountDate, String mainAccountPrice, Category category,
+                       String mainAccountBankCode,String mainAccountBankContents, RefAccountCode mainAccountCode,
+                       RefPaymentType paymentType, String mainAccountContents) {
         this.mainAccountDate = mainAccountDate;
         this.mainAccountPrice = mainAccountPrice;
-        this.mainAccountTotalPrice = mainAccountTotalPrice;
         this.category = category;
         this.mainAccountBankCode = mainAccountBankCode;
         this.mainAccountBankContents = mainAccountBankContents;
@@ -83,9 +89,7 @@ public class MainAccount {
     }
     @PostLoad
     public void setIsIncome(){
-        String cCode = this.mainAccountCode.getCCode();
-//        조건에 따라 입
-        if(true) {
+        if(this.mainAccountPrice.contains("+")) {
             this.isIncome = true;
         } else {
             this.isIncome = false;
