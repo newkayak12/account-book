@@ -14,6 +14,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -36,12 +38,14 @@ public class MainAccount {
     private LocalDateTime mainAccountDate;
     @Column(nullable = false)
     private String mainAccountPrice;
+
     @OneToOne
     @JoinColumn(name = "my_money_no", referencedColumnName = "my_money_no")
     private MyMoney mainAccountTotalPrice;
     @OneToOne
     @JoinColumn(name = "category_no", referencedColumnName = "category_no")
     private Category category;
+
     @Column(name = "main_account_bank_code")
     private String mainAccountBankCode;
     @Column(name = "main_account_bank_contents")

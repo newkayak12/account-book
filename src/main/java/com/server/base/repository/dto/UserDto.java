@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 @ToString
 public class UserDto implements Serializable {
     private Long userNo;
+
     @NotNull(message = "아이디를 입력해주세요", groups = {Validations.FirstSign.class, Validations.SignUp.class})
     private String userId;
     @NotNull(message = "이름을 입력해주세요", groups = { Validations.SignUp.class})
