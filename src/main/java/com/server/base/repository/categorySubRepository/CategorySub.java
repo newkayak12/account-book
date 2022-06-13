@@ -1,5 +1,6 @@
 package com.server.base.repository.categorySubRepository;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.server.base.repository.categoryRepository.Category;
 import com.server.base.repository.userRepository.User;
 import lombok.*;
@@ -27,6 +28,8 @@ public class CategorySub {
     @ManyToOne
     @JoinColumn(name = "user_no", referencedColumnName = "user_no")
     private User user;
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "category_no", referencedColumnName = "category_no")
     private Category category;

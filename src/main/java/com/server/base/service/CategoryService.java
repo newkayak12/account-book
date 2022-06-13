@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -56,6 +57,7 @@ public class CategoryService {
     @Transactional(rollbackFor = Exception.class)
     public void saveSub(UserDto userDto, CategorySubDto categorySubDto) throws ServiceException {
         User user = userRepository.getUserByUserNo(userDto.getUserNo());
+        log.warn("categorySubDto.getCategoryNo() {}, user {}", categorySubDto.getCategoryNo(), user);
         Category category = categoryRepository.findCategoryByCategoryNoAndUser(categorySubDto.getCategoryNo(), user)
                 .orElseThrow(()->new ServiceException(Exceptions.EMPTY_DATA));
         CategorySub categorySub = categorySubRepository.getCategorySubByCategorySubNoAndUser(categorySubDto.getCategorySubNo(), user)
@@ -69,6 +71,7 @@ public class CategoryService {
         Mapper.modelMapping(categorySubDto, categorySub);
         categorySub.setMainCategory(category);
         categorySub.setUser(user);
+        categorySubRepository.save(categorySub);
     }
 
     /**
@@ -103,6 +106,7 @@ public class CategoryService {
      */
     public PagingContainer fetchMains(UserDto userDto, PagingDto pagingDto) {
         Pageable pageInfo = PageRequest.of(pagingDto.getPage(), pagingDto.getLimit(), Sort.by("categoryNo"));
+        List<CategoryDto> categoryDtoList = new ArrayList<>();
         return new PagingContainer(pageInfo, categoryRepository.fetchMains(userDto, pageInfo));
     }
 
@@ -111,7 +115,8 @@ public class CategoryService {
         User user = userRepository.getUserByUserNo(userDto.getUserNo());
         Category category = categoryRepository.findCategoryByCategoryNoAndUser(categoryDto.getCategoryNo(), user)
                 .orElseThrow(()->new ServiceException(Exceptions.EMPTY_DATA));
-        return Mapper.modelMapping(categorySubRepository.getCategorySubsByCategoryAndUser(category, user)
-                .orElseThrow(()->new ServiceException(Exceptions.EMPTY_DATA)), new ArrayList<>());
+        return categorySubRepository.getCategorySubsByCategoryAndUser(category, user)
+                .orElseThrow(()->new ServiceException(Exceptions.EMPTY_DATA)).stream().map(item->Mapper.modelMapping(item, new CategorySubDto()))
+                .collect(Collectors.toList());
     }
 }

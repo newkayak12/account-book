@@ -32,17 +32,20 @@ public class CategoryController {
     @Authorization
     public Response saveMain(@RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations,
                 @Validated(Validations.saveMain.class) @Valid @RequestBody  CategoryDto categoryDto){
+        System.out.println(authorizations);
         UserDto userDto = (UserDto) authorizations;
         categoryDto.setUser(userDto);
         categoryService.saveMain(categoryDto);
         return new Response(200, "등록이 완료되었습니다.", null);
     }
     @ApiOperation(value = "메인 카테고리 삭제", httpMethod = "DELETE")
-    @DeleteMapping(value = "/main")
+    @DeleteMapping(value = "/main/{categoryNo}")
     @Authorization
     public Response removeMain(@RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations,
-            @Validated(Validations.removeMain.class) @Valid @ModelAttribute CategoryDto categoryDto) throws ServiceException {
+                               @PathVariable Long categoryNo) throws ServiceException {
+        CategoryDto categoryDto = new CategoryDto();
         categoryDto.setUser((UserDto) authorizations);
+        categoryDto.setCategoryNo(categoryNo);
         categoryService.removeMain(categoryDto);
         return new Response(1, "삭제했습니다.", null);
     }
@@ -52,16 +55,19 @@ public class CategoryController {
     @Authorization
     public Response saveSub(@RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations,
             @Validated(Validations.saveSub.class) @Valid @RequestBody CategorySubDto categorySubDto) throws ServiceException {
+
         categoryService.saveSub((UserDto) authorizations, categorySubDto);
         return new Response(200, "등록이 완료되었습니다.", null);
     }
 
     @ApiOperation(value = "서브 카테고리 삭제", httpMethod = "DELETE")
-    @DeleteMapping(value = "/sub")
+    @DeleteMapping(value = "/sub/{categorySubNo}")
     @Authorization
     public Response removeSub(@RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations,
-                              @Validated(Validations.removeSub.class) @Valid @ModelAttribute CategorySubDto categorySubDto) throws ServiceException {
+                              @PathVariable Long categorySubNo) throws ServiceException {
+        CategorySubDto categorySubDto = new CategorySubDto();
         categorySubDto.setUser((UserDto) authorizations);
+        categorySubDto.setCategorySubNo(categorySubNo);
         categoryService.removeSub(categorySubDto);
         return new Response(1, "삭제했습니다.", null);
     }
@@ -78,7 +84,7 @@ public class CategoryController {
     @GetMapping(value = "/subs")
     @Authorization
     public Response fetchSubs(@RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations,
-                            @Validated(Validations.fetchSub.class) @Valid @ModelAttribute CategoryDto categoryDto) throws ServiceException {
+                            @Validated(Validations.fetchSub.class) @Valid  CategoryDto categoryDto) throws ServiceException {
         return new Response(200, "", categoryService.fetchSub((UserDto) authorizations, categoryDto));
     }
 

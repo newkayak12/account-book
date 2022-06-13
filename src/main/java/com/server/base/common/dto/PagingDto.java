@@ -4,16 +4,17 @@ package com.server.base.common.dto;
 import com.server.base.common.validations.Validations;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.util.StringUtils;
-import org.springframework.validation.annotation.Validated;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class PagingDto {
     public void setStartDate(String startDate) {
         if(Objects.isNull(startDate)||startDate.equals("")){
