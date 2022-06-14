@@ -23,12 +23,12 @@ public class CategorySubDto implements Serializable {
         }
     }
 
-    @NotNull(message = "카테고리 No가 필요합니다.", groups = {Validations.removeSub.class})
+    @NotNull(message = "카테고리 No가 필요합니다.", groups = {Validations.RemoveSub.class})
     private  Long categorySubNo;
     @JsonIgnoreProperties(allowSetters = false, allowGetters = false)
     @JsonIgnore
     private  UserDto user;
     private  Long categoryNo;
-    @NotNull(message = "서브 카테고리 이름은 필수 항목입니다.", groups = {Validations.saveSub.class})
+    @NotNull(message = "서브 카테고리 이름은 필수 항목입니다.", groups = {Validations.SaveSub.class})
     private  String category_etc2;
 }

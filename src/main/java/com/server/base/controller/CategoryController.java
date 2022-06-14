@@ -31,7 +31,7 @@ public class CategoryController {
     @PostMapping(value = "/main")
     @Authorization
     public Response saveMain(@RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations,
-                @Validated(Validations.saveMain.class) @Valid @RequestBody  CategoryDto categoryDto){
+                @Validated(Validations.SaveMain.class) @Valid @RequestBody  CategoryDto categoryDto){
         System.out.println(authorizations);
         UserDto userDto = (UserDto) authorizations;
         categoryDto.setUser(userDto);
@@ -54,7 +54,7 @@ public class CategoryController {
     @PostMapping(value = "/sub")
     @Authorization
     public Response saveSub(@RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations,
-            @Validated(Validations.saveSub.class) @Valid @RequestBody CategorySubDto categorySubDto) throws ServiceException {
+            @Validated(Validations.SaveSub.class) @Valid @RequestBody CategorySubDto categorySubDto) throws ServiceException {
 
         categoryService.saveSub((UserDto) authorizations, categorySubDto);
         return new Response(200, "등록이 완료되었습니다.", null);
@@ -76,7 +76,7 @@ public class CategoryController {
     @GetMapping(value = "/mains")
     @Authorization
     public Response fetchMains (@RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations,
-                                @Validated(Validations.paging.class) @Valid @ModelAttribute PagingDto pagingDto){
+                                @Validated(Validations.Paging.class) @Valid @ModelAttribute PagingDto pagingDto){
         return new Response(200, "", categoryService.fetchMains((UserDto) authorizations, pagingDto));
     }
 
@@ -84,7 +84,7 @@ public class CategoryController {
     @GetMapping(value = "/subs")
     @Authorization
     public Response fetchSubs(@RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations,
-                            @Validated(Validations.fetchSub.class) @Valid  CategoryDto categoryDto) throws ServiceException {
+                            @Validated(Validations.FetchSub.class) @Valid  CategoryDto categoryDto) throws ServiceException {
         return new Response(200, "", categoryService.fetchSub((UserDto) authorizations, categoryDto));
     }
 

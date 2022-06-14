@@ -37,11 +37,11 @@ public class UserDto implements Serializable {
 //    @JsonIgnore(value = false)
     @IgnoreEncrypt
     @JsonIgnoreProperties(allowSetters = true, allowGetters = false)
-    @NotNull(message = "비밀번호를 입력해주세요", groups = {Validations.FirstSign.class,  Validations.SignUp.class, Validations.changePassword.class})
+    @NotNull(message = "비밀번호를 입력해주세요", groups = {Validations.FirstSign.class,  Validations.SignUp.class, Validations.ChangePassword.class})
     private String password;
     @IgnoreEncrypt
     @JsonIgnoreProperties(allowSetters = true, allowGetters = false)
-    @NotNull(message = "변경할 비밀번호를 입력해주세요", groups = {Validations.changePassword.class})
+    @NotNull(message = "변경할 비밀번호를 입력해주세요", groups = {Validations.ChangePassword.class})
     private String passwordNew;
     @IgnoreEncrypt
     @JsonIgnoreProperties(allowSetters = true, allowGetters = false)

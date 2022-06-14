@@ -5,17 +5,22 @@ public class Validations {
     public interface FirstSign{};
     public interface SecondSign{};
     public interface SignUp{};
-    public interface changePassword{};
+    public interface ChangePassword{};
 
 //   category
-    public interface saveMain{};
-    public interface saveSub{};
-    public interface removeMain{};
-    public interface removeSub{};
+    public interface SaveMain{};
+    public interface SaveSub{};
+    public interface RemoveMain{};
+    public interface RemoveSub{};
+    public interface FetchSub{};
 
-    public interface fetchSub{};
+
+//    MyMoney
+    public interface SaveMyMoney{};
+    public interface RemoveMyMoney{};
 
 //    common
-    public interface paging{};
+    public interface Paging{};
+    public interface RegDate{};
 
 }
