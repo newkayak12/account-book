@@ -31,7 +31,7 @@ public class Configurations implements WebMvcConfigurer {
     public AuthInterceptor authInterceptor(){return new AuthInterceptor();}
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        List<String> excludePath = List.of("/api/user/signUp", "/api/user/signIn", "/api/user/signOut", "/error/*");
+        List<String> excludePath = List.of("/**/user/signUp", "/**/user/signIn", "/**/user/signOut", "/error/*");
         List<String> apiList = Constants.API_PATH;
         List<String> includePath = apiList.stream().map(item-> "/api/"+item+"/*").collect(Collectors.toList());
         String include = "/api/**/*";
