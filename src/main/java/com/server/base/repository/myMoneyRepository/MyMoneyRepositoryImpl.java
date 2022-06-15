@@ -10,7 +10,7 @@ import java.util.List;
 import static com.server.base.repository.myMoneyRepository.QMyMoney.myMoney;
 public class MyMoneyRepositoryImpl extends QuerydslRepositorySupport implements MyMoneyRepositoryCustom {
     public MyMoneyRepositoryImpl() {
-        super(QMyMoney.class);
+        super(MyMoney.class);
     }
 
     @Override

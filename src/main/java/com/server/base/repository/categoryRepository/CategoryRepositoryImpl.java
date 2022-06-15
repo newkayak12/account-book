@@ -8,11 +8,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
+import java.util.List;
+
 import static com.server.base.repository.categoryRepository.QCategory.category;
 
 public class CategoryRepositoryImpl extends QuerydslRepositorySupport implements CategoryRepositoryCustom{
     public CategoryRepositoryImpl() {
-        super(QCategory.class);
+        super(Category.class);
     }
 
     @Override
@@ -27,5 +29,10 @@ public class CategoryRepositoryImpl extends QuerydslRepositorySupport implements
                 .limit(pageable.getPageSize())
                 .fetchResults();
         return new PageImpl<>(queryResults.getResults(), pageable, queryResults.getTotal());
+    }
+
+    @Override
+    public List<Category> fetchMainsNotPaging(UserDto userDto) {
+        return from(category).where(category.user.userNo.isNull().and(category.user.userNo.eq(userDto.getUserNo()))).fetch();
     }
 }

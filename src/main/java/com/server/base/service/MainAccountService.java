@@ -5,6 +5,8 @@ import com.server.base.common.enums.Type;
 import com.server.base.common.exception.Exceptions;
 import com.server.base.common.exception.ServiceException;
 import com.server.base.common.mapper.Mapper;
+import com.server.base.repository.categoryRepository.Category;
+import com.server.base.repository.categoryRepository.CategoryRepository;
 import com.server.base.repository.dto.MainAccountDto;
 import com.server.base.repository.dto.UserDto;
 import com.server.base.repository.mainAccount.MainAccount;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MainAccountService {
     private final MainAccountRepository mainAccountRepository;
+    private final CategoryRepository categoryRepository;
 
     /**
      * 등록/수정
@@ -52,7 +55,6 @@ public class MainAccountService {
     public Map<String,Object> fetchAccount(UserDto userDto, PagingDto pagingDto) {
         List<MainAccount> mainAccountDtoList = mainAccountRepository.fetchMainAccount(userDto, pagingDto);
         Map<String,Object> result = new HashMap<>();
-
             if(Type.MONTH.equals(pagingDto.getType())){
                 LocalDate start = pagingDto.getStartDate().withDayOfMonth(1);
                 LocalDate end = pagingDto.getEndDate().withDayOfMonth(pagingDto.getEndDate().lengthOfMonth());
@@ -77,11 +79,29 @@ public class MainAccountService {
                     }
                 });
             }
-
             if(Type.DAY.equals(pagingDto.getType())){
                 Integer day = LocalDate.now().getDayOfMonth();
                 result.put(day+" 일", mainAccountDtoList.stream().filter(value->value.getMainAccountDate().getDayOfMonth()==day).collect(Collectors.toList()));
             }
         return result;
+    }
+
+    public Map<String,Object> fetchInAndOut(UserDto userDto, PagingDto pagingDto) {
+        List<MainAccount> mainAccountDtoList = mainAccountRepository.fetchMainAccount(userDto, pagingDto);
+        List<Category> categories = categoryRepository.fetchMainsNotPaging(userDto);
+        Map<String,Object> result = new HashMap<>();
+        categories.stream().forEach(c -> {
+            List<MainAccount> ac = mainAccountDtoList.stream().filter(item-> item.getCategory().equals(c)).collect(Collectors.toList());
+            result.put(c.getCategory_etc1(), ac);
+        });
+        Integer total = mainAccountDtoList.stream().map(item -> {return Integer.parseInt(item.getMainAccountPrice().replace("+", "").replace("-",""));})
+                .reduce((a,c)->{return a+c; }).get();
+        result.put("total", total);
+        return result;
+    }
+
+    public Map<String,Object> fetchTotalInAndOut(UserDto userDto, PagingDto pagingDto) {
+        mainAccountRepository.fetchTotalInAndOut(userDto, pagingDto);
+        Map<String, Object> result = new HashMap<>();
     }
 }
