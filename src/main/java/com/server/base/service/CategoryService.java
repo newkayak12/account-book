@@ -23,7 +23,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -106,7 +105,6 @@ public class CategoryService {
      */
     public PagingContainer fetchMains(UserDto userDto, PagingDto pagingDto) {
         Pageable pageInfo = PageRequest.of(pagingDto.getPage(), pagingDto.getLimit(), Sort.by("categoryNo"));
-        List<CategoryDto> categoryDtoList = new ArrayList<>();
         return new PagingContainer(pageInfo, categoryRepository.fetchMains(userDto, pageInfo));
     }
 

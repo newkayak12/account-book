@@ -47,5 +47,18 @@ public class MainAccountController {
         return new Response(200, "", mainAccountService.fetchAccount((UserDto)authorizations, pagingDto));
     }
 
+    @ApiOperation(value = "가계부 지출/수입 전체 가져오기")
+    @GetMapping(value = "/inAndOut")
+    @Authorization
+    public Response fetchInAndOut(@RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations, @ModelAttribute PagingDto pagingDto){
+        return new Response(200, "", mainAccountService.fetchInAndOut((UserDto) authorizations, pagingDto));
+    }
+
+    @ApiOperation(value = "전체 지출/수입 ")
+    @GetMapping(value = "/total/inAndOut")
+    @Authorization
+    public Response fetchTotalInAndOut(@RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations, @ModelAttribute PagingDto pagingDto){
+        return new Response(200, "", mainAccountService.fetchTotalInAndOut((UserDto)authorizations, pagingDto));
+    }
 
 }

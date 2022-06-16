@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface MainAccountRepositoryCustom {
     List<MainAccount> fetchMainAccount(UserDto userDto, PagingDto pagingDto);
+    List<MainAccount> fetchTotalInAndOut(UserDto userDto, PagingDto pagingDto);
 }
