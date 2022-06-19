@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum RefRepeatType {
 //    반복 타입
+    LOAN(-1),//할부
     NONE(0), //반복 없음
     DAILY(1), // 매일
     WEEKDAY(2), // 평일마다

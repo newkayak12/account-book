@@ -8,7 +8,6 @@ import com.server.base.common.responseContainer.Response;
 import com.server.base.common.validations.BindingErrorChecker;
 import com.server.base.common.validations.Validations;
 import com.server.base.repository.dto.UserDto;
-import com.server.base.repository.userRepository.User;
 import com.server.base.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -110,7 +109,7 @@ public class UserController {
     @Authorization
     public Response changePassword(
             @RequestHeader(value = HttpHeaders.AUTHORIZATION) Object authorizations,
-            @Validated(Validations.changePassword.class) @Valid @RequestBody UserDto userDto,
+            @Validated(Validations.ChangePassword.class) @Valid @RequestBody UserDto userDto,
             HttpServletResponse response
     ) throws ServiceException {
         UserDto dto = (UserDto) authorizations;

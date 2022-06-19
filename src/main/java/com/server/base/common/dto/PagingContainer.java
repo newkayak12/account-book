@@ -1,17 +1,21 @@
 package com.server.base.common.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.io.Serializable;
 import java.util.List;
-
-public class PagingContainer <T> {
+@Getter
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+public class PagingContainer <T> implements Serializable {
     List<T> list;
     PageInfo pageInfo;
-    public  void commit(Pageable pageInfo, Page<T> listFunction){
+    public  PagingContainer (Pageable pageInfo, Page<T> listFunction){
         this.list = listFunction.getContent();
         this.pageInfo = PageInfo.builder()
                 .page(pageInfo.getOffset())
@@ -28,7 +32,8 @@ public class PagingContainer <T> {
 @Setter
 @AllArgsConstructor
 @Builder
-class PageInfo{
+@Getter
+class PageInfo implements Serializable {
     private Long page;
     private Integer pageNumber;
     private Integer pageSize;
@@ -36,6 +41,5 @@ class PageInfo{
     private Boolean hasNext;
     private Boolean hasPrevious;
     private Long totalElement;
-
-
 }
+

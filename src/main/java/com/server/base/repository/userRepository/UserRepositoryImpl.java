@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 public class UserRepositoryImpl extends QuerydslRepositorySupport implements UserRepositoryCustom {
     public UserRepositoryImpl() {
-        super(QUser.class);
+        super(User.class);
     }
 
 }

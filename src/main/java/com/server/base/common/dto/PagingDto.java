@@ -1,34 +1,42 @@
 package com.server.base.common.dto;
 
 
+import com.server.base.common.enums.Type;
+import com.server.base.common.validations.Validations;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.util.StringUtils;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.validation.constraints.Null;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Objects;
+import java.util.Arrays;
 
 @Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class PagingDto {
-    public void setStartDate(String startDate) {
-        if(Objects.isNull(startDate)||startDate.equals("")){
-            this.startDate=null;
-            return ;
+    @NotNull(message = "필수 항목입니다.", groups = {Validations.RegDate.class})
+    public void setRegDate(String regDate) {
+        String[] date = regDate.split(" ~ ");
+        this.startDate = LocalDate.parse(date[0]);
+        this.endDate = LocalDate.parse(date[0]);
+        if(date.length>1){
+            this.endDate = LocalDate.parse(date[1]);
         }
-        this.startDate = LocalDate.parse(startDate);
-    }
-    public void setEndDate(String endDate) {
-        if(Objects.isNull(endDate)||endDate.equals("")){
-            this.endDate=null;
-            return ;
-        }
-        this.endDate = LocalDate.parse(endDate);
     }
 
+    public void setType(Integer type) {
+        this.type = Arrays.stream(Type.values()).filter(item->type.equals(item.getCode())).findFirst().orElseGet(null);
+    }
+
+    @NotNull(message = "페이지 번호는 필수 항목입니다.", groups = {Validations.Paging.class})
     private Integer page;
+    @NotNull(message = "페이지 당 개수는 필수 항목입니다.", groups = {Validations.Paging.class})
     private Integer limit;
+    private Type type;
+    private Boolean isIncome;
     private String searchText;
     private LocalDate startDate;
     private LocalDate endDate;

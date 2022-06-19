@@ -11,8 +11,12 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.reflections.Reflections;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
 import java.lang.reflect.Parameter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Set;
 
 @Component
 @Aspect
@@ -43,10 +47,11 @@ public class Authentication {
                     }).count();
             if(isExist>0){
                 Object  token = parameterValues[i];
-                if(Objects.isNull(token)){
+                if(StringUtils.isEmpty(token)){
                     throw new ServiceException(Exceptions.INVALID_ACCESS);
                 }
                 parameterValues[i] = TokenManager.decrypt(target.getConstructor().newInstance(), (String) token);
+                System.out.println("parameterValues[i]  :: "+parameterValues[i]);
                 break;
             }
         }
