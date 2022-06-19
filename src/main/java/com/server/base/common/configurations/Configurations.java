@@ -1,9 +1,9 @@
 package com.server.base.common.configurations;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.server.base.common.authorizations.interceptor.AuthInterceptor;
 import com.server.base.common.constants.Constants;
 import com.server.base.common.validations.BindingErrorChecker;
-import com.server.base.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,12 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
 
-import java.util.Date;
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,4 +39,11 @@ public class Configurations implements WebMvcConfigurer {
     public DateLogger dateLogger() {return new DateLogger();}
     @Bean
     public BindingErrorChecker bindingErrorChecker() {return new BindingErrorChecker();}
+
+    @Autowired
+    EntityManager em;
+    @Bean
+    public JPAQueryFactory jpaQueryFactory(){
+        return new JPAQueryFactory(em);
+    }
 }
