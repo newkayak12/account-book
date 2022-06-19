@@ -25,9 +25,9 @@ public class BaseTest {
     ObjectMapper objectMapper;
     HttpHeaders httpHeaders;
     RestTemplate rt;
-    String refresh = "Bearer eyJ0eXAiOiJyZiIsImFsZyI6IkhTNTEyIn0.eyJ1c2VyTm8iOjEsImlzcyI6IlNQUklOR19CQVNFIiwiaWF0IjoxNjU0Nzc2NDMxfQ.zFQrdsMMqK-MlVkHovH2XXE7T6-1U_ihSAa_XX6gAR2UANUFeD7jXPb-ruWS2K5wwvVEthEQlVZQGP8BF9v1OQ";
-    String authorization =  "Bearer eyJ0eXAiOiJhYyIsImFsZyI6IkhTNTEyIn0.eyJ1c2VyTnVtIjoiMDEwMTIzNDEyMzQiLCJ1c2VyU3RhdHVzIjoiQUNUSVZBVEVEIiwidXNlck5vIjoxLCJpc3MiOiJTUFJJTkdfQkFTRSIsInVzZXJOYW1lIjoidGVzdDEiLCJleHAiOjE2NTQ5NzA2ODQsInVzZXJJZCI6InRlc3QxMiIsImlhdCI6MTY1NDkyNzQ4NH0.qHuWGEvWx2q971n-6oGEY6NeiTFj_crm3H-UPntLpliCXdM15G3z_Di7Td6PgH81ZJV4MfSxMUf6iolj0fqv7A";
-    String prefix = "http://localhost:8080/api/user/";
+    String refresh = "Bearer eyJ0eXAiOiJyZiIsImFsZyI6IkhTNTEyIn0.eyJ1c2VyTm8iOjEsImlzcyI6IlNQUklOR19CQVNFIiwiaWF0IjoxNjU1MDIzNzcyfQ.AfPvdWWvqvwSXqX84fmX6d5yPpkFXmw4Xc489FZ-soyNm-qa7RC9LCUTN1nZf1_PDQCJvx5yPsjqFVpiZtYzRg";
+    String authorization =  "Bearer eyJ0eXAiOiJhYyIsImFsZyI6IkhTNTEyIn0.eyJ1c2VyTnVtIjoiMDEwMTIzNDEyMzQiLCJ1c2VyU3RhdHVzIjoiQUNUSVZBVEVEIiwidXNlck5vIjoxLCJpc3MiOiJTUFJJTkdfQkFTRSIsInVzZXJOYW1lIjoidGVzdDEiLCJleHAiOjE2NTUwNjY5NzIsInVzZXJJZCI6InRlc3QxMiIsImlhdCI6MTY1NTAyMzc3Mn0.OaQvvV6MqafItVNsqZuDNkDRnbR9cUHmyoGN7TE6QVRntF0DMIfd5TKCVyJHXXwTMClic_jDF4Sllzb76YRVsw";
+    String prefix = "http://localhost:8080/api/";
 
     @BeforeEach
     void setUp(){

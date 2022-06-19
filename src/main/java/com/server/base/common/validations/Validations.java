@@ -6,7 +6,9 @@ public class Validations {
     public interface SecondSign{};
     public interface SignUp{};
     public interface changePassword{};
-//    bank
-    public interface saveBankList{};
+
+//   category
+    public interface saveMain{};
+
 
 }
