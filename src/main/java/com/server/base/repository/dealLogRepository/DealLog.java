@@ -16,11 +16,11 @@ public class DealLog {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_idx", nullable = false)
-    private User userIdx;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cate_idx")
-    private Category cateIdx;
+    private Category category;
 
     @Column(name = "deal_date")
     private LocalDate dealDate;

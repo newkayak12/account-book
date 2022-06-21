@@ -9,7 +9,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "user")
@@ -53,7 +52,6 @@ public class User extends UserDateEntity {
 
     @PostPersist
     private void setRefreshToken(){
-        System.out.println("TOKEN!! "+ TokenManager.refreshEncrypt(this.userNo));
         authEntity.setRefreshToken(TokenManager.refreshEncrypt(this.userNo));
     }
     public void setPasswordSub(String passwordSub){

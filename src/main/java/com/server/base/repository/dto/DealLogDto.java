@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -11,10 +12,12 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @ToString
 @JsonIgnoreProperties(value = {"user"}, allowSetters = true, allowGetters = false)
-public class CategoryDto implements Serializable {
-    private  Long categoryNo;
+public class DealLogDto implements Serializable {
+    private  Long dealLogNo;
     private  UserDto user;
-    private  String cateName;
-    private  Boolean cateFlag;
-    private  String cateImage;
+    private  CategoryDto category;
+    private  Integer dealPrice;
+    private  String dealContent;
+    private  Boolean isOutcome;
+    private  LocalDate dealDate;
 }
