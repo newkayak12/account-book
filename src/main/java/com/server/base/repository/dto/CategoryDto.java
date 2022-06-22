@@ -12,6 +12,7 @@ import java.io.Serializable;
 @ToString
 @JsonIgnoreProperties(value = {"user"}, allowSetters = true, allowGetters = false)
 public class CategoryDto implements Serializable {
+
     private  Long categoryNo;
     private  UserDto user;
     private  String cateName;
