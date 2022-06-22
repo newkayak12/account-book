@@ -4,7 +4,10 @@ import com.server.base.common.authorizations.annotations.IgnoreEncrypt;
 import com.server.base.common.constants.Constants;
 import com.server.base.common.exception.Exceptions;
 import com.server.base.common.exception.ServiceException;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.modelmapper.ModelMapper;
 
 import java.lang.annotation.Annotation;
@@ -104,6 +107,7 @@ public class TokenManager {
      */
     public static Boolean isExpired(String token){
         token = token.replace("Bearer ","");
+        System.out.println("TOKEN!!!!!!! " + token);
         Date expiration = Jwts.parser()
                 .setSigningKey(getSecretKey())
                 .parseClaimsJws(token)

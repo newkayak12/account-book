@@ -13,10 +13,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Objects;
 
 //@RequiredArgsConstructor
 @NoArgsConstructor
@@ -37,7 +35,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                 System.out.println("                                           | |                      ");
                 System.out.println("                                           |_|                      ");
             }
-            String accessToken = request.getHeader("Authorization");
+            String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
             String refreshToken = request.getHeader(Constants.REFRESH_TOKEN);
             Boolean isExpired = null;
             try{

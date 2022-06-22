@@ -34,22 +34,6 @@ import java.util.Objects;
 public class UserController {
     private final UserService userService;
     private final BindingErrorChecker bindingErrorChecker;
-
-    @ApiOperation(value = "로그인", httpMethod = "GET")
-    @Parameters({
-            @Parameter(name = "userId", required = true, schema = @Schema(type = "String")),
-            @Parameter(name = "password", required = true, schema = @Schema(type = "String"))
-    })
-    @GetMapping(value = "/signIn")
-    @Validated(Validations.FirstSign.class)
-    public Response signIn(@Valid @ModelAttribute UserDto userDto,
-                           HttpServletResponse response) throws ServiceException {
-        log.error("USERDTO {}", userDto);
-        UserDto result = userService.signIn(userDto);
-        response.addHeader(Constants.REFRESH_TOKEN, result.getAuthEntity().getRefreshToken());
-        return new EncryptResponse( response, result, Map.of("subPassword", Objects.isNull(result.getPasswordSub())?false:true));
-    };
-
     @ApiOperation("회원가입")
     @Parameters({
             @Parameter(name = "userId", required = true, schema = @Schema(type = "String")),
@@ -60,10 +44,24 @@ public class UserController {
     public Response signUp( @Validated(Validations.SignUp.class) @Valid @RequestBody
                                     UserDto userDto, HttpServletResponse response) throws ServiceException {
         UserDto result = userService.saveUser(userDto);
-        System.out.println("RESULT {}??"+ result);
         response.addHeader(Constants.REFRESH_TOKEN, result.getAuthEntity().getRefreshToken());
         return new EncryptResponse(response, result, null);
     }
+
+    @ApiOperation(value = "로그인", httpMethod = "GET")
+    @Parameters({
+            @Parameter(name = "userId", required = true, schema = @Schema(type = "String")),
+            @Parameter(name = "password", required = true, schema = @Schema(type = "String"))
+    })
+    @GetMapping(value = "/signIn")
+    @Validated(Validations.FirstSign.class)
+    public Response signIn(@Valid @ModelAttribute UserDto userDto,
+                           HttpServletResponse response) throws ServiceException {
+        UserDto result = userService.signIn(userDto);
+        response.addHeader(Constants.REFRESH_TOKEN, result.getAuthEntity().getRefreshToken());
+        return new EncryptResponse( response, result, Map.of("subPassword", Objects.isNull(result.getPasswordSub())?false:true));
+    };
+
     @ApiOperation("로그아웃")
     @GetMapping("/signOut")
     public void singOut(HttpServletResponse response){
@@ -82,7 +80,7 @@ public class UserController {
         UserDto params = (UserDto) authorizations;
         params.setPasswordSub(userDto.getPasswordSub());
         userService.easySignUp(params);
-        return new Response(200, "", null);
+        return new Response(200, "간편 비밀번호가 설정되었습니다.", null);
     }
 
     @ApiOperation(value = "간편 로그인", httpMethod = "GET")
@@ -97,7 +95,7 @@ public class UserController {
         UserDto params = (UserDto) authorizations;
         params.setPasswordSub(userDto.getPasswordSub());
         userService.easySignIn(params);
-        return new Response(200, "간편 비밀번호가 설정되었습니다.", null);
+        return new Response(200, "", null);
     }
 
     @ApiOperation(value = "비밀번호 변경", httpMethod = "PATCH")

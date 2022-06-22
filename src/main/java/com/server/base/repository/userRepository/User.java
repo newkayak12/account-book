@@ -51,9 +51,7 @@ public class User extends UserDateEntity {
 
 
     @PostPersist
-    private void setRefreshToken(){
-        authEntity.setRefreshToken(TokenManager.refreshEncrypt(this.userNo));
-    }
+    private void setRefreshToken(){ authEntity.setRefreshToken(TokenManager.refreshEncrypt(this.userNo)); }
     public void setPasswordSub(String passwordSub){
         this.passwordSub = passwordSub;
     }

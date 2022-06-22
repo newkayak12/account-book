@@ -38,10 +38,28 @@ public class Constants {
     public void setRefreshToken(String _refresh_token){REFRESH_TOKEN=_refresh_token;}
     @Value("${CONSTANTS.CORS}")
     public void setCORS(String CORS) {
-        Constants.CORS = CORS;
+        CORS = CORS;
     }
     @Value("${CONSTANTS.LOCKDOWNTIME}")
-    public void setLockDownTime(Long _lock_down_time){Constants.LOCK_DOWN_TIME=_lock_down_time; }
+    public void setLockDownTime(Long _lock_down_time){LOCK_DOWN_TIME=_lock_down_time; }
     @Value("${CONSTANTS.SUBCATEGORYMAXCOUNT}")
-    public void setSubCategoryMaxCount(Integer _sub_category_max_count){Constants.SUB_CATEGORY_MAX_COUNT = _sub_category_max_count; }
+    public void setSubCategoryMaxCount(Integer _sub_category_max_count){SUB_CATEGORY_MAX_COUNT = _sub_category_max_count; }
+
+
+    public static String TEST_ACCESS_TOKEN;
+    public static String TEST_REFRESH_TOKEN;
+    public static String TEST_PREFIX;
+
+    @Value("${TEST.ACCESS_TOKEN}")
+    public void setTestAccessToken(String _test_access_token){
+        TEST_ACCESS_TOKEN = _test_access_token;
+    }
+    @Value("${TEST.REFRESH_TOKEN}")
+    public void setTestRefreshToken(String _test_refresh_token){
+        TEST_REFRESH_TOKEN = _test_refresh_token;
+    }
+    @Value("${TEST.PREFIX}")
+    public void setTestPrefix(String _test_prefix){
+        TEST_PREFIX = _test_prefix;
+    }
 }

@@ -1,6 +1,5 @@
 package com.server.base.repository.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.server.base.common.authorizations.annotations.AuthorizeDto;
 import com.server.base.common.authorizations.annotations.IgnoreEncrypt;
 import com.server.base.common.enums.UserStatus;
@@ -14,8 +13,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
+@Builder
 @AuthorizeDto
-@JsonIgnoreProperties(value = {"password", "passwordSub", "authEntity"}, allowGetters = false, allowSetters = true)
+//@JsonIgnoreProperties(value = {"password", "passwordSub", "authEntity"}, allowGetters = true, allowSetters = false)
 public class UserDto implements Serializable {
     private  Long userNo;
     private  String userId;

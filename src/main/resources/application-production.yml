@@ -27,4 +27,4 @@ spring:
 
 CONSTANTS:
   ISDEVMODE: "false"
-  CORS: ""
+  CORS: "*"
