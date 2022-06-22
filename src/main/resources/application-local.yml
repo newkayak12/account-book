@@ -1,4 +1,3 @@
-
 spring:
   profiles: local
   datasource:
@@ -15,7 +14,7 @@ spring:
       max-lifetime: 1800000
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
   logging: ##LOGGING
     level:
       root: info
