@@ -1,15 +1,11 @@
 package com.server.base.repository.categoryRepository;
 
-import com.server.base.repository.categorySubRepository.CategorySub;
 import com.server.base.repository.userRepository.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.List;
-
-
 
 @Entity
 @Table
@@ -24,18 +20,22 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_no")
+    @Column(name = "cate_idx", nullable = false)
     private Long categoryNo;
-    @ManyToOne
-    @JoinColumn(name = "user_no", referencedColumnName = "user_no")
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_idx", nullable = false)
     private User user;
-    private String category_etc1;
-//    @BatchSize(size = 100)
-    @OneToMany(mappedBy = "category", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<CategorySub> category_etc2_list;
-    private Boolean isIncome;
-    @Column(columnDefinition = "TEXT", name = "category_image")
-    private String categoryImage;
+
+    @Column(name = "cate_name", length = 50)
+    private String cateName;
+
+    @Column(name = "cate_flag", nullable = false)
+    private Boolean cateFlag = false;
+
+    @Column(name = "cate_image", length = 200)
+    private String cateImage;
+
 
     public void setUser(User user){
         this.user = user;
