@@ -4,8 +4,10 @@ import com.server.base.repository.userRepository.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table
@@ -17,6 +19,7 @@ import javax.persistence.*;
 @ToString
 @DynamicUpdate
 @DynamicInsert
+@EntityListeners(AuditingEntityListener.class)
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,13 +34,41 @@ public class Category {
     private String cateName;
 
     @Column(name = "cate_flag", nullable = false)
-    private Boolean cateFlag = false;
+    private Boolean cateFlag;
 
-    @Column(name = "cate_image", length = 200)
+    @Column(name = "cate_is_basic")
+    private  Boolean cateIsBasic;
+
+    @Column(name = "cate_image", columnDefinition = "TEXT")
     private String cateImage;
+
+
 
 
     public void setUser(User user){
         this.user = user;
+    }
+    public void changeCategoryName(String categoryName){
+        if(this.cateName!= categoryName){
+            this.cateName= categoryName;
+        }
+    }
+    public void changeImage(String image64){
+        if(this.cateImage != image64){
+            this.cateImage = image64;
+        }
+    }
+    public void hideCategory(){
+        this.cateFlag=false;
+    }
+
+    @PrePersist
+    private void setting(){
+        if(Objects.isNull(this.cateFlag)){
+            this.cateFlag = true;
+        }
+        if(Objects.isNull(this.cateIsBasic)){
+            this.cateIsBasic=false;
+        }
     }
 }

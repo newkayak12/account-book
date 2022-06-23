@@ -6,6 +6,7 @@ import lombok.*;
 import java.io.Serializable;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
@@ -17,5 +18,6 @@ public class CategoryDto implements Serializable {
     private  UserDto user;
     private  String cateName;
     private  Boolean cateFlag;
+    private  Boolean cateIsBasic;
     private  String cateImage;
 }
