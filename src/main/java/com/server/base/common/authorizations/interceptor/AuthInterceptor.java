@@ -54,6 +54,10 @@ public class AuthInterceptor implements HandlerInterceptor {
                     if(!Objects.isNull(userToken)&&userToken.equals(refreshToken)){ ///DB의 토큰과 같다면
                         String accessTokenRemade = TokenManager.encrypt(userDto); //   재발급
                         response.addHeader(HttpHeaders.AUTHORIZATION, accessTokenRemade);
+
+                        if(Constants.IS_DEV_MODE){
+                            System.out.println("INTERCEPTOR FIN");
+                        }
                         return HandlerInterceptor.super.preHandle(request, response, handler);
                     } else {
                         throw new ServiceException(Exceptions.TOKEN_EXPIRED);
@@ -62,6 +66,9 @@ public class AuthInterceptor implements HandlerInterceptor {
             }
 
             //access 토큰이 있고 만료가 안됐으면
+        if(Constants.IS_DEV_MODE){
+            System.out.println("INTERCEPTOR FIN");
+        }
             return HandlerInterceptor.super.preHandle(request, response, handler);
         }
 }

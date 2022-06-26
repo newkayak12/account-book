@@ -54,14 +54,15 @@ public class CategoryService {
             category.changeImage(category.getCateImage());
         }
     }
-
+    @Transactional(rollbackFor = Exception.class)
     public void removeCategory(CategoryDto categoryDto) throws ServiceException {
-        if(categoryDto.getCateIsBasic()){
-            Category category = categoryRepository.findCategoryByCategoryNo(categoryDto.getCategoryNo())
-                    .orElseThrow(()-> new ServiceException(Exceptions.EMPTY_DATA));
+        Category category = categoryRepository.findCategoryByCategoryNo(categoryDto.getCategoryNo())
+                .orElseThrow(()-> new ServiceException(Exceptions.EMPTY_DATA));
+
+        if(category.getCateIsBasic()){
             category.hideCategory();
         }
-        if(!categoryDto.getCateIsBasic()){
+        if(!category.getCateIsBasic()){
             categoryRepository.deleteByCategoryNo(categoryDto.getCategoryNo());
         }
     }

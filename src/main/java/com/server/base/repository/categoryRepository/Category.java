@@ -59,7 +59,7 @@ public class Category {
         }
     }
     public void hideCategory(){
-        this.cateFlag=false;
+        this.cateFlag=!this.cateFlag;
     }
 
     @PrePersist
