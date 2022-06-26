@@ -35,8 +35,11 @@ public class PagingDto {
     private Integer page;
     @NotNull(message = "페이지 당 개수는 필수 항목입니다.", groups = {Validations.Paging.class})
     private Integer limit;
+
+    @NotNull(message = "타입은 필수 입니다.", groups = {Validations.Type.class})
     private Type type;
-    private Boolean isIncome;
+    private Boolean isOutcome;
+    private Long tableNo;
     private String searchText;
     private LocalDate startDate;
     private LocalDate endDate;

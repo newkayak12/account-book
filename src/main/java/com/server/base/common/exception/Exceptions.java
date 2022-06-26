@@ -21,7 +21,10 @@ public enum Exceptions {
     EMPTY_DATA(-2000, "해당 데이터가 없습니다."),
 
 // BINDINGERROR
-    BINDING_ERROR(-2000, "파라미터 %s가 잘못됐습니다.");
+    BINDING_ERROR(-2000, "파라미터 %s가 잘못됐습니다."),
+
+//  DealLogError
+    NO_TYPE_HAS_BEEN_BOUND(-9999, "타입이 지정되지 않았습니다.");
 
 
 

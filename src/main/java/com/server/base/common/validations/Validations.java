@@ -9,18 +9,15 @@ public class Validations {
 
 //   category
     public interface SaveMain{};
-    public interface SaveSub{};
     public interface RemoveMain{};
-    public interface RemoveSub{};
-    public interface FetchSub{};
 
 
 //    MyMoney
-    public interface SaveMyMoney{};
-    public interface RemoveMyMoney{};
 
 //    common
     public interface Paging{};
     public interface RegDate{};
 
+//    dealLog
+    public interface Type{};
 }

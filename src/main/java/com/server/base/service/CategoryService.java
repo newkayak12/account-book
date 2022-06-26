@@ -23,6 +23,7 @@ import java.util.Objects;
 public class CategoryService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final DealLogService dealLogService;
 
     /**
      * 카테고리 가져오기
@@ -61,6 +62,7 @@ public class CategoryService {
 
         if(category.getCateIsBasic()){
             category.hideCategory();
+            dealLogService.setNoCategory(categoryDto.getUser(), categoryDto);
         }
         if(!category.getCateIsBasic()){
             categoryRepository.deleteByCategoryNo(categoryDto.getCategoryNo());

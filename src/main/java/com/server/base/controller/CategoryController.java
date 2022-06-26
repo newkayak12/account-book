@@ -32,10 +32,10 @@ public class CategoryController {
     @DeleteMapping(value = "/remove")
     @Authorization
     public Response removeCategory(@RequestHeader(name = "Authorization") Object userDto,
-                                   @RequestParam Long categoryNo) throws ServiceException {
-        CategoryDto categoryDto = new CategoryDto();
+                                   @ModelAttribute CategoryDto categoryDto) throws ServiceException {
+//        CategoryDto categoryDto = new CategoryDto();
         categoryDto.setUser((UserDto) userDto);
-        categoryDto.setCategoryNo(categoryNo);
+//        categoryDto.setCategoryNo(categoryNo);
         categoryService.removeCategory(categoryDto);
         return new Response(200, "삭제되었습니다.", null);
     }

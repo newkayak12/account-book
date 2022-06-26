@@ -34,7 +34,7 @@ public class CategoryTest extends BaseTest {
     @Test
     void hideCategory(){
         CategoryDto dto = CategoryDto.builder().categoryNo(4L).user(new UserDto()).cateName("외식비").build();
-        this.delete("/remove", Users.builder().categoryNo(6L).build());
+        this.delete("/remove", Users.builder().categoryNo(4L).build());
     }
 
 
