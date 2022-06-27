@@ -36,8 +36,10 @@ public class PagingDto {
     @NotNull(message = "페이지 당 개수는 필수 항목입니다.", groups = {Validations.Paging.class})
     private Integer limit;
 
-    @NotNull(message = "타입은 필수 입니다.", groups = {Validations.Type.class})
+    @NotNull(message = "타입은 필수입니다.", groups = {Validations.Type.class})
     private Type type;
+
+    @NotNull(message = "플래그는 필수입니다.", groups = {Validations.Statistics.class})
     private Boolean isOutcome;
     private Long tableNo;
     private String searchText;

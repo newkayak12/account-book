@@ -59,4 +59,13 @@ public class DealLogController {
         return new Response(200, "", dealLogService.fetchDealLogList((UserDto)userDto, pagingDto));
     }
 
+    @ApiOperation(value = "통계")
+    @GetMapping(value = "/statistics")
+    @Authorization
+    public Response fetchStatistics(@RequestHeader(name = "Authorization") Object userDto,
+                                    @ModelAttribute PagingDto pagingDto) throws ServiceException {
+        return new Response(200, "", dealLogService.fetchStatistics((UserDto)userDto, pagingDto));
+    }
+
+
 }

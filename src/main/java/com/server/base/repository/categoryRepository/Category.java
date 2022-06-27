@@ -42,6 +42,9 @@ public class Category {
     @Column(name = "cate_image", columnDefinition = "TEXT")
     private String cateImage;
 
+    @Column(name = "cate_is_outcome")
+    private Boolean isOutcome;
+
 
 
 

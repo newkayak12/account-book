@@ -18,5 +18,6 @@ public class CategoryDto implements Serializable {
     private  String cateName;
     private  Boolean cateFlag;
     private  Boolean cateIsBasic;
+    private  Boolean isOutcome;
     private  String cateImage;
 }

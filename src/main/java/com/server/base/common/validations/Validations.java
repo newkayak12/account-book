@@ -20,4 +20,5 @@ public class Validations {
 
 //    dealLog
     public interface Type{};
+    public interface Statistics{};
 }
