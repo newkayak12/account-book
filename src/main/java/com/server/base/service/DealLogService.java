@@ -88,6 +88,13 @@ public class DealLogService {
             throw new ServiceException(Exceptions.NO_TYPE_HAS_BEEN_BOUND);
         }
 //날짜 설정
+        List<DealLogDto> list = dealLogRepository.fetchList(pagingDto, userDto.getUserNo());
+        Map result = new HashMap();
+
+        result.put("totalIncome", list.stream().filter(i->!i.getIsOutcome()).map(DealLogDto::getDealPrice).mapToLong(i->i).sum());
+        result.put("totalOutcome", list.stream().filter(i->i.getIsOutcome()).map(DealLogDto::getDealPrice).mapToLong(i->-i).sum());
+
+
         if(Type.MONTH.equals(pagingDto.getType())){
 
         }
@@ -97,13 +104,6 @@ public class DealLogService {
         if(Type.DAY.equals(pagingDto.getType())){
 
         }
-
-        List<DealLogDto> list = dealLogRepository.fetchList(pagingDto, userDto.getUserNo());
-        Map result = new HashMap();
-
-        result.put("totalIncome", list.stream().filter(i->!i.getIsOutcome()).map(DealLogDto::getDealPrice).mapToLong(i->i).sum());
-        result.put("totalOutcome", list.stream().filter(i->i.getIsOutcome()).map(DealLogDto::getDealPrice).mapToLong(i->-i).sum());
-
         return  null;
     }
 }
