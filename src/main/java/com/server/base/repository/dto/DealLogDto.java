@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 @ToString
 @JsonIgnoreProperties(value = {"user"}, allowSetters = true, allowGetters = false)
+@Builder
 public class DealLogDto implements Serializable {
     private  Long dealLogNo;
     private  UserDto user;

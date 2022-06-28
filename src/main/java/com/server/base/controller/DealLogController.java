@@ -30,6 +30,7 @@ public class DealLogController {
     public Response saveDealLog(@RequestHeader(name = "Authorization") Object userDto,
                                 @RequestBody DealLogDto dealLogDto){
         dealLogDto.setUser((UserDto) userDto);
+        log.warn("reqBody {} ", dealLogDto);
         dealLogService.saveDealLog(dealLogDto);
         return new Response(200, "저장되었습니다.",null);
     }
@@ -39,6 +40,7 @@ public class DealLogController {
     public Response removeDealLog(@RequestHeader(name = "Authorization") Object userDto,
                                   @ModelAttribute DealLogDto dealLogDto){
         dealLogDto.setUser((UserDto) userDto);
+        log.warn("reqBody {} ", dealLogDto);
         dealLogService.removeDealLog(dealLogDto);
         return new Response(200, "삭제되었습니다.", null);
     }

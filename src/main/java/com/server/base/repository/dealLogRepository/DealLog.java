@@ -51,7 +51,7 @@ public class DealLog {
 
 
     public void changeCategory(Category category){
-        if(!Objects.isNull(category)&& !this.category.equals(category)){
+        if(!Objects.isNull(category)&& !category.equals(this.category)){
             this.category = category;
         }
     }
@@ -61,13 +61,19 @@ public class DealLog {
         }
     }
     public void changePrice(Integer price){
-        if(price>=0 && !this.dealPrice.equals(price)){
+        if(price>=0 && !price.equals(this.dealPrice)){
             this.dealPrice = price;
         }
     }
     public void changePlusMinus(Boolean isOutcome){
-        if(!Objects.isNull(isOutcome)&& !this.isOutcome.equals(isOutcome)){
+        if(!Objects.isNull(isOutcome)&& !isOutcome.equals(this.isOutcome)){
             this.isOutcome = isOutcome;
+        }
+    }
+
+    public void setUser(User user){
+        if(Objects.isNull(this.user)){
+            this.user = user;
         }
     }
 

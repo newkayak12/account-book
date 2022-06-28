@@ -3,6 +3,7 @@ package com.server.base.baseTest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.server.base.common.constants.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +38,7 @@ public class BaseTest {
         authorization = Constants.TEST_ACCESS_TOKEN;
         refresh = Constants.TEST_REFRESH_TOKEN;
         prefix=Constants.TEST_PREFIX;
-        objectMapper = new ObjectMapper();
+        objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.set(Constants.REFRESH_TOKEN, refresh);
@@ -78,6 +79,7 @@ public class BaseTest {
             log.error("\n\n");
             log.warn("[  BODY  ]  ::: {}", response.getBody());
         } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
     }
     protected void patch(String url, Object object){

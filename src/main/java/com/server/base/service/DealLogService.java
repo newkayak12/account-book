@@ -12,6 +12,7 @@ import com.server.base.repository.dealLogRepository.DealLogRepository;
 import com.server.base.repository.dto.CategoryDto;
 import com.server.base.repository.dto.DealLogDto;
 import com.server.base.repository.dto.UserDto;
+import com.server.base.repository.userRepository.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -44,14 +45,24 @@ public class DealLogService {
      */
     @Transactional(rollbackFor = Exception.class)
     public void saveDealLog(DealLogDto dealLogDto) {
-        DealLog dealLog = dealLogRepository.findDealLogByDealLogNoAndUserNo(dealLogDto.getDealLogNo(), dealLogDto.getUser().getUserNo())
-                .orElseGet(DealLog::new);
+        DealLog dealLog = null;
+        if(Objects.isNull(dealLogDto.getDealLogNo())){
+            dealLog = new DealLog();
+        }
+        if(!Objects.isNull(dealLogDto.getDealLogNo())){
+            dealLog = dealLogRepository.findDealLogByDealLogNoAndUserNo(dealLogDto.getDealLogNo(), dealLogDto.getUser().getUserNo())
+                    .orElseGet(DealLog::new);
+        }
 
+        User user = Mapper.modelMapping(dealLogDto.getUser(), new User());
+        Category category = Mapper.modelMapping(dealLogDto.getCategory(), new Category());
         if(Objects.isNull(dealLog.getDealLogNo())){
-            dealLog.changeCategory(Mapper.modelMapping(dealLogDto.getCategory(), new Category()));
-            dealLog.changeMemo(dealLog.getDealContent());
-            dealLog.changePlusMinus(dealLog.getIsOutcome());
-            dealLog.changePrice(dealLog.getDealPrice());
+            dealLog.changeCategory(category);
+            dealLog.setUser(user);
+            dealLog.changeMemo(dealLogDto.getDealContent());
+            dealLog.changePlusMinus(dealLogDto.getIsOutcome());
+            dealLog.changePrice(dealLogDto.getDealPrice());
+            dealLogRepository.save(dealLog);
         }
         if(!Objects.isNull(dealLog.getDealLogNo())){
             Mapper.modelMapping(dealLogDto, dealLog);
@@ -63,6 +74,7 @@ public class DealLogService {
      * 가계부 삭제
      * @param dealLogDto
      */
+    @Transactional
     public void removeDealLog(DealLogDto dealLogDto) {
         dealLogRepository.removeDealLog(dealLogDto.getDealLogNo(), dealLogDto.getUser().getUserNo());
     }
