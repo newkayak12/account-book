@@ -164,7 +164,7 @@ public class DealLogService {
         outcomeCategories.stream().forEach(i->{
             inMap.put(i.getCateName(), list.stream().filter(j->j.getCategory().getCateName().equals(i.getCateName())&&j.getIsOutcome().equals(i.getIsOutcome())).collect(Collectors.toList()));
         });
-        result.put("outcome", inMap);
+        result.put("income", inMap);
         return result;
     }
 }

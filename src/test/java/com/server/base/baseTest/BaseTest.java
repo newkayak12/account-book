@@ -48,6 +48,7 @@ public class BaseTest {
     protected void get(String url, Object object){
         try {
             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(prefix+url);
+//            UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(prefix+url);
 
             if(!Objects.isNull(object)){
                 Field[] fields = object.getClass().getDeclaredFields();
@@ -57,7 +58,7 @@ public class BaseTest {
                 }
             }
 
-            String uri = builder.toUriString();
+            String uri = builder.build(false).toUriString();
             String json = objectMapper.writeValueAsString(object);
             log.error("JSON!!!::{}", json);
             HttpEntity<String> entity = new HttpEntity<>(json, httpHeaders);

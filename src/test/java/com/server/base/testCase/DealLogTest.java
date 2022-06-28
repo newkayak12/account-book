@@ -46,9 +46,20 @@ public class DealLogTest extends BaseTest {
     }
 
     @Test
-    void removeDealLog(){
+    void removeDealLogTest(){
         DealLogDtoB dealLogDto = DealLogDtoB.builder().dealLogNo(1L).build();
         this.delete("/remove",dealLogDto);
+    }
+    @Test
+    void fetchOneDealLogTest(){
+        DealLogDtoB dealLogDto = DealLogDtoB.builder().dealLogNo(4L).build();
+        this.get("/fetch",dealLogDto);
+    }
+    @Test
+    void statisticsTest(){
+        Pdto pagingDto = new Pdto();
+        pagingDto.setRegDate(LocalDate.now().withDayOfMonth(1)+" ~ "+LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()));
+        this.get("/statistics", pagingDto);
     }
 }
 @NoArgsConstructor
@@ -58,4 +69,12 @@ public class DealLogTest extends BaseTest {
 @Getter
 class DealLogDtoB{
     Long dealLogNo;
+}
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Setter
+@Getter
+class Pdto{
+    String regDate;
 }
