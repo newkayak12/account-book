@@ -94,6 +94,7 @@ public class UserService {
     public UserDto saveUser(UserDto userDto) throws ServiceException {
            User user = userRepository.getUserByUserId(userDto.getUserId())
                         .orElseGet(User::new);
+           log.warn("??{}", user);
            if(!Objects.isNull(user)&&!user.equals(new User())){
                throw new ServiceException(Exceptions.ALREADY_EXIST);
            }

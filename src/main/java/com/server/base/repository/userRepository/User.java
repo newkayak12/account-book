@@ -16,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "userNo")
 @ToString
 @EntityListeners(AuditingEntityListener.class)
 @DynamicUpdate
@@ -35,6 +35,7 @@ public class User extends UserDateEntity {
 
     @Column(name = "user_password_sub", length = 300)
     private String passwordSub;
+
 
     @Column(name = "user_password_fail_cnt", nullable = false)
     private Integer passwordFailCnt;

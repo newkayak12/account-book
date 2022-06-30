@@ -111,7 +111,7 @@ public class DealLogService {
 
         if(Type.MONTH.equals(pagingDto.getType())){
             Map cal = new HashMap();
-            monthStart.datesUntil(monthEnd).forEach(item->{
+            monthStart.datesUntil(monthEnd.plusDays(1)).forEach(item->{
                 Integer day = item.getDayOfMonth();
                 List<DealLogDto> dayList = list.stream().filter(value->value.getDealDate().getDayOfMonth()==day).collect(Collectors.toList());
                 cal.put(day, Map.of("income", dayList.stream().filter(value-> !value.getIsOutcome()).collect(Collectors.toList()), "outcome", dayList.stream().filter(value-> value.getIsOutcome()).collect(Collectors.toList())));
@@ -133,13 +133,13 @@ public class DealLogService {
                     c.set(value.getDealDate().getYear(), value.getDealDate().getMonth().getValue(), value.getDealDate().getDayOfMonth());
                     return (week.equals(c.get(Calendar.WEEK_OF_MONTH))&&day.equals(value.getDealDate().getDayOfWeek().getValue()));
                 }).collect(Collectors.toList());
-                cal[week][day] = Map.of("income", weekList.stream().filter(v->!v.getIsOutcome()).collect(Collectors.toList()), "outcome", weekList.stream().filter(v->v.getIsOutcome()).collect(Collectors.toList()));
+                cal[week-1][day-1] = Map.of("income", weekList.stream().filter(v->!v.getIsOutcome()).collect(Collectors.toList()), "outcome", weekList.stream().filter(v->v.getIsOutcome()).collect(Collectors.toList()));
             });
             result.put("calendar", cal);
         }
         if(Type.DAY.equals(pagingDto.getType())){
             Map cal = new HashMap();
-            monthStart.datesUntil(monthEnd).forEach(item->{
+            monthStart.datesUntil(monthEnd.plusDays(1)).forEach(item->{
                 Integer day = item.getDayOfMonth();
                 List<DealLogDto> dayList = list.stream().filter(value->value.getDealDate().getDayOfMonth()==day).collect(Collectors.toList());
                 cal.put(day, Map.of("income", dayList.stream().filter(value-> value.getIsOutcome()).collect(Collectors.toList()), "outcome", dayList.stream().filter(value-> !value.getIsOutcome()).collect(Collectors.toList())));

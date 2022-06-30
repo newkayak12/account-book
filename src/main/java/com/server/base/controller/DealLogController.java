@@ -4,17 +4,13 @@ import com.server.base.common.authorizations.annotations.Authorization;
 import com.server.base.common.dto.PagingDto;
 import com.server.base.common.exception.ServiceException;
 import com.server.base.common.responseContainer.Response;
-import com.server.base.common.validations.Validations;
 import com.server.base.repository.dto.DealLogDto;
 import com.server.base.repository.dto.UserDto;
 import com.server.base.service.DealLogService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @CrossOrigin("*")
@@ -57,7 +53,7 @@ public class DealLogController {
     @GetMapping(value = "/fetchList")
     @Authorization
     public Response fetchDealLogList(@RequestHeader(name = "Authorization") Object userDto,
-                  @Validated(Validations.Type.class) @Valid @ModelAttribute PagingDto pagingDto) throws ServiceException {
+                   @ModelAttribute PagingDto pagingDto) throws ServiceException {
         return new Response(200, "", dealLogService.fetchDealLogList((UserDto)userDto, pagingDto));
     }
 
