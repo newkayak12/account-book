@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  server:
+    container_name: accountbook
+    build:
+      context: .
+    image: amazoncorretto:11
+    volumes: # 공유할 볼륨
+      - /home/projects/accountbook/:/home/projects
+    ports: # 열어 둘 포트
+      -
+    command: ['java','-jar', '-Dspring.active.profiles=prod', '/home/projects/application.jar']
