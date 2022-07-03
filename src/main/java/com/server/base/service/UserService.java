@@ -144,4 +144,11 @@ public class UserService {
         List<Category> list = List.of(transportCategory, shoppingCategory, foodCategory, tripCategory, monthlyIncome);
         categoryRepository.saveAll(list);
     }
+
+    public void check(UserDto userDto) throws ServiceException {
+        User user = userRepository.getUserByUserId(userDto.getUserId()).orElseGet(User::new);
+        if(!Objects.isNull(user.getUserNo())){
+            throw  new ServiceException(Exceptions.ALREADY_EXIST);
+        }
+    }
 }

@@ -5,7 +5,6 @@ import com.server.base.common.constants.Constants;
 import com.server.base.common.exception.ServiceException;
 import com.server.base.common.responseContainer.EncryptResponse;
 import com.server.base.common.responseContainer.Response;
-import com.server.base.common.validations.BindingErrorChecker;
 import com.server.base.common.validations.Validations;
 import com.server.base.repository.dto.UserDto;
 import com.server.base.service.UserService;
@@ -33,7 +32,16 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final BindingErrorChecker bindingErrorChecker;
+
+    @ApiOperation("회원 가입 여부 체크")
+    @GetMapping(value = "/checkUser")
+    public Response check(UserDto userDto) throws ServiceException {
+        userService.check(userDto);
+        return new Response(200, "사용할 수 있는 아이디입니다.", null);
+    }
+
+
+
     @ApiOperation("회원가입")
     @Parameters({
             @Parameter(name = "userId", required = true, schema = @Schema(type = "String")),
