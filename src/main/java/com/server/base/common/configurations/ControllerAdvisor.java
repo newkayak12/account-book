@@ -14,7 +14,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @RestControllerAdvice
 public class ControllerAdvisor {
 
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({ServiceException.class})
     public Response ServiceExceptionHandler(ServiceException e){
         Boolean isDevMode = Constants.IS_DEV_MODE;
@@ -26,7 +26,7 @@ public class ControllerAdvisor {
         return new Response(e.getCode(), e.getMsg(), null);
     }
 
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Exception.class})
     public Response ExceptionHandler(Exception e){
         Boolean isDevMode = Constants.IS_DEV_MODE;

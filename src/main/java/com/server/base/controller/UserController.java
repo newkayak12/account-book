@@ -34,7 +34,7 @@ public class UserController {
     private final UserService userService;
 
     @ApiOperation("회원 가입 여부 체크")
-    @GetMapping(value = "/checkUser")
+    @GetMapping(value = "/check")
     public Response check(UserDto userDto) throws ServiceException {
         userService.check(userDto);
         return new Response(200, "사용할 수 있는 아이디입니다.", null);
