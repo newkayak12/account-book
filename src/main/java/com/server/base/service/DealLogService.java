@@ -116,10 +116,9 @@ public class DealLogService {
         Integer weekCount = endCalendar.get(Calendar.WEEK_OF_MONTH);
 //        if(startCalendar.DAY_OF_WEEK)
 
-        Object[][] cal = new Object[weekCount][7];
 
         if(Type.MONTH.equals(pagingDto.getType())){
-            Map calz = new HashMap();
+            Object[][] cal = new Object[weekCount][7];
             monthStart.datesUntil(monthEnd.plusDays(1)).forEach(item->{
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(item.getYear(), item.getMonth().getValue(), item.getDayOfMonth());
@@ -132,11 +131,12 @@ public class DealLogService {
 
                     return (week.equals(c.get(Calendar.WEEK_OF_MONTH)) &&day.equals(c.get(Calendar.DAY_OF_WEEK)));
                 }).collect(Collectors.toList());
-                calz.put(day, Map.of("income", dayList.stream().filter(value-> !value.getIsOutcome()).collect(Collectors.toList()), "outcome", dayList.stream().filter(value-> value.getIsOutcome()).collect(Collectors.toList())));
+                cal[week][day] =  Map.of("income", dayList.stream().filter(value-> !value.getIsOutcome()).collect(Collectors.toList()), "outcome", dayList.stream().filter(value-> value.getIsOutcome()).collect(Collectors.toList()));
             });
-            result.put("calendar", calz);
+            result.put("calendar", cal);
         }
         if(Type.WEEK.equals(pagingDto.getType())){
+            Object[] cal = new Object[weekCount];
             Calendar calendarTemp = Calendar.getInstance();
             calendarTemp.set(monthEnd.getYear(), monthEnd.getMonth().getValue(), monthEnd.getDayOfMonth());
             monthStart.datesUntil(monthEnd).forEach(item->{
@@ -147,14 +147,15 @@ public class DealLogService {
                 Integer day = calendar.get(Calendar.DAY_OF_WEEK);
                 Integer week = calendar.get(Calendar.WEEK_OF_MONTH);
 
-                List<DealLogDto> weekList = list.stream().filter(value->{
-                    Calendar c = Calendar.getInstance();
-                    c.set(value.getDealDate().getYear(), value.getDealDate().getMonth().getValue(), value.getDealDate().getDayOfMonth());
-                    return (week.equals(c.get(Calendar.WEEK_OF_MONTH)));
-                }).collect(Collectors.toList());
+                if(Objects.isNull(cal[week])){
+                    List<DealLogDto> weekList = list.stream().filter(value->{
+                        Calendar c = Calendar.getInstance();
+                        c.set(value.getDealDate().getYear(), value.getDealDate().getMonth().getValue(), value.getDealDate().getDayOfMonth());
+                        return (week.equals(c.get(Calendar.WEEK_OF_MONTH)));
+                    }).collect(Collectors.toList());
 
-
-                cal[week-1][day-1] = Map.of("income", weekList.stream().filter(v->!v.getIsOutcome()).collect(Collectors.toList()), "outcome", weekList.stream().filter(v->v.getIsOutcome()).collect(Collectors.toList()));
+                    cal[week]= Map.of("day", item.getDayOfMonth()+" ~ "+ item.getDayOfMonth()+6, "income", weekList.stream().filter(v->!v.getIsOutcome()).collect(Collectors.toList()), "outcome", weekList.stream().filter(v->v.getIsOutcome()).collect(Collectors.toList()));
+                }
             });
             result.put("calendar", cal);
         }
