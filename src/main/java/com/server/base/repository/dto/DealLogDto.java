@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-@JsonIgnoreProperties(value = {"user"}, allowSetters = true, allowGetters = false)
+@JsonIgnoreProperties(value = {"user"}, allowSetters = false, allowGetters = false)
 @Builder
 public class DealLogDto implements Serializable {
     private  Long dealLogNo;

@@ -1,5 +1,6 @@
 package com.server.base.repository.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.io.Serializable;
@@ -10,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-//@JsonIgnoreProperties(value = {"user"}, allowSetters = false, allowGetters = false)
+@JsonIgnoreProperties(value = {"user"}, allowSetters = false, allowGetters = false)
 public class CategoryDto implements Serializable {
 
     private  Long categoryNo;

@@ -120,53 +120,75 @@ public class DealLogService {
         if(Type.MONTH.equals(pagingDto.getType())){
             Object[][] cal = new Object[weekCount][7];
             monthStart.datesUntil(monthEnd.plusDays(1)).forEach(item->{
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(item.getYear(), item.getMonth().getValue(), item.getDayOfMonth());
+                Calendar calendar = new GregorianCalendar();
+                calendar.setTime(Date.from(item.atStartOfDay(ZoneId.systemDefault()).toInstant()));
                 Integer day = calendar.get(Calendar.DAY_OF_WEEK);
                 Integer week = calendar.get(Calendar.WEEK_OF_MONTH);
 
                 List<DealLogDto> dayList = list.stream().filter(val-> {
-                    Calendar c = Calendar.getInstance();
-                    c.set(val.getDealDate().getYear(), val.getDealDate().getMonth().getValue(), val.getDealDate().getDayOfMonth());
-
+                    Calendar c = new GregorianCalendar();
+                    c.setTime(Date.from(val.getDealDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
                     return (week.equals(c.get(Calendar.WEEK_OF_MONTH)) &&day.equals(c.get(Calendar.DAY_OF_WEEK)));
                 }).collect(Collectors.toList());
-                cal[week][day] =  Map.of("income", dayList.stream().filter(value-> !value.getIsOutcome()).collect(Collectors.toList()), "outcome", dayList.stream().filter(value-> value.getIsOutcome()).collect(Collectors.toList()));
+
+
+                log.warn("CAL {}", cal);
+                cal[week-1][day-1] =  Map.of("day", item.getDayOfMonth()+"일", "income", dayList.stream().filter(value-> !value.getIsOutcome()).collect(Collectors.toList()), "outcome", dayList.stream().filter(value-> value.getIsOutcome()).collect(Collectors.toList()));
             });
             result.put("calendar", cal);
         }
+
+
         if(Type.WEEK.equals(pagingDto.getType())){
             Object[] cal = new Object[weekCount];
-            Calendar calendarTemp = Calendar.getInstance();
-            calendarTemp.set(monthEnd.getYear(), monthEnd.getMonth().getValue(), monthEnd.getDayOfMonth());
-            monthStart.datesUntil(monthEnd).forEach(item->{
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(item.getYear(), item.getMonth().getValue(), item.getDayOfMonth());
+            monthStart.datesUntil(monthEnd.plusDays(1)).forEach(item->{
+                Calendar calendar = new GregorianCalendar();
+                calendar.setTime(Date.from(item.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
 
                 Integer day = calendar.get(Calendar.DAY_OF_WEEK);
                 Integer week = calendar.get(Calendar.WEEK_OF_MONTH);
-
-                if(Objects.isNull(cal[week])){
+                if(Objects.isNull(cal[week-1])){
                     List<DealLogDto> weekList = list.stream().filter(value->{
-                        Calendar c = Calendar.getInstance();
-                        c.set(value.getDealDate().getYear(), value.getDealDate().getMonth().getValue(), value.getDealDate().getDayOfMonth());
+                        Calendar c = new GregorianCalendar();
+                        c.setTime(Date.from(value.getDealDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+
                         return (week.equals(c.get(Calendar.WEEK_OF_MONTH)));
                     }).collect(Collectors.toList());
 
-                    cal[week]= Map.of("day", item.getDayOfMonth()+" ~ "+ item.getDayOfMonth()+6, "income", weekList.stream().filter(v->!v.getIsOutcome()).collect(Collectors.toList()), "outcome", weekList.stream().filter(v->v.getIsOutcome()).collect(Collectors.toList()));
+
+                    weekList.stream().sorted((o1, o2) -> {
+                        if(o1.getDealDate().atStartOfDay().isBefore(o2.getDealDate().atStartOfDay())){
+                            return 1;
+                        }
+                        if(o1.getDealDate().atStartOfDay().isAfter(o2.getDealDate().atStartOfDay())){
+                            return -1;
+                        }
+                            return 0;
+                    }).collect(Collectors.toList());
+
+                    Integer start = weekList.get(0).getDealDate().getDayOfMonth();
+                    Integer end = weekList.get(weekList.size()-1).getDealDate().getDayOfMonth();
+                    String resultText = null;
+                    resultText = item.getMonth().getValue()+"월 "+start+"일 ~ "+ item.getMonth().getValue()+"월 "+end+"일";
+                    if(start.equals(end)){
+                        resultText =item.getMonth().getValue()+"월 "+start.toString()+"일";
+                    }
+
+                    cal[week-1]= Map.of("day", resultText, "income", weekList.stream().filter(v->!v.getIsOutcome()).collect(Collectors.toList()), "outcome", weekList.stream().filter(v->v.getIsOutcome()).collect(Collectors.toList()));
                 }
             });
             result.put("calendar", cal);
         }
         if(Type.DAY.equals(pagingDto.getType())){
-            Map calz = new HashMap();
+            List<Map> cal = new ArrayList<>();
             monthStart.datesUntil(monthEnd.plusDays(1)).forEach(item->{
                 Integer day = item.getDayOfMonth();
                 List<DealLogDto> dayList = list.stream().filter(value->value.getDealDate().getDayOfMonth()==day).collect(Collectors.toList());
-                calz.put(day, Map.of("income", dayList.stream().filter(value-> value.getIsOutcome()).collect(Collectors.toList()), "outcome", dayList.stream().filter(value-> !value.getIsOutcome()).collect(Collectors.toList())));
+                Map temp= Map.of("day", day +"일","income", dayList.stream().filter(value-> !value.getIsOutcome()).collect(Collectors.toList()), "outcome", dayList.stream().filter(value-> value.getIsOutcome()).collect(Collectors.toList()));
+                cal.add(temp);
             });
-            result.put("calendar",calz);
+            result.put("calendar",cal);
         }
         return  result;
     }
